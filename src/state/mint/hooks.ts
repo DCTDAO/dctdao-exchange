@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from '@uniswap/sdk'
+import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from '@dctdao/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
@@ -35,6 +35,7 @@ export function useDerivedMintInfo(
   error?: string
 } {
   const { account, chainId } = useActiveWeb3React()
+  
 
   const { t } = useTranslation()
 
@@ -50,10 +51,15 @@ export function useDerivedMintInfo(
     }),
     [currencyA, currencyB]
   )
-
+  
   // pair
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
   const totalSupply = useTotalSupply(pair?.liquidityToken)
+  console.log("===================================")
+  console.log(currencies[Field.CURRENCY_A])
+  console.log(currencies[Field.CURRENCY_B])
+  console.log(pairState)
+  console.log(pair)
 
   const noLiquidity: boolean =
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
@@ -135,15 +141,15 @@ export function useDerivedMintInfo(
 
   let error: string | undefined
   if (!account) {
-    error = t('connectWallet');
+    error = t('connectWallet')
   }
 
   if (pairState === PairState.INVALID) {
-    error = error ?? t('invalidPair');
+    error = error ?? t('invalidPair')
   }
 
   if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? t('enterAnAmount');
+    error = error ?? t('enterAnAmount')
   }
 
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts

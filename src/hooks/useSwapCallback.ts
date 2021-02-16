@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@uniswap/sdk'
+import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@dctdao/sdk'
 import { useMemo } from 'react'
 import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from '../constants'
 import { getTradeVersion, useV1TradeExchangeAddress } from '../data/V1'
@@ -59,7 +59,6 @@ function useSwapCallArguments(
   return useMemo(() => {
     const tradeVersion = getTradeVersion(trade)
     if (!trade || !recipient || !library || !account || !tradeVersion || !chainId) return []
-
     const contract: Contract | null =
       tradeVersion === Version.v2 ? getRouterContract(chainId, library, account) : v1Exchange
     if (!contract) {

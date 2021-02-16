@@ -1,9 +1,10 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@uniswap/sdk'
+import { ChainId, JSBI, Percent, Token, WETH } from '@dctdao/sdk'
 import { AbstractConnector } from '@sushi-web3-react/abstract-connector'
 
 import { fortmatic, injected, portis, walletconnect, walletlink, lattice } from '../connectors'
 
-export const ROUTER_ADDRESS = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
+//export const ROUTER_ADDRESS = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
+export const ROUTER_ADDRESS = '0x0dBF0f9288Cb1A22060F17A5B5bdcC260AB7d965'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -24,7 +25,13 @@ export const YFI = new Token(ChainId.MAINNET, '0x0bc529c00C6401aEF6D220BE8C6Ea16
 export const CREAM = new Token(ChainId.MAINNET, '0x2ba592F78dB6436527729929AAf6c908497cB200', 18, 'CREAM', 'Cream')
 export const BAC = new Token(ChainId.MAINNET, '0x3449FC1Cd036255BA1EB19d65fF4BA2b8903A69a', 18, 'BAC', 'Basis Cash')
 export const FXS = new Token(ChainId.MAINNET, '0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0', 18, 'FXS', 'Frax Share')
-export const CRV = new Token(ChainId.MAINNET, '0xD533a949740bb3306d119CC777fa900bA034cd52', 18, 'CRV', 'Curve Dao Token')
+export const CRV = new Token(
+  ChainId.MAINNET,
+  '0xD533a949740bb3306d119CC777fa900bA034cd52',
+  18,
+  'CRV',
+  'Curve Dao Token'
+)
 export const ALPHA = new Token(ChainId.MAINNET, '0xa1faa113cbE53436Df28FF0aEe54275c13B40975', 18, 'ALPHA', 'AlphaToken')
 
 const WETH_ONLY: ChainTokenList = {
@@ -32,13 +39,28 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.ROPSTEN]: [WETH[ChainId.ROPSTEN]],
   [ChainId.RINKEBY]: [WETH[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
-  [ChainId.KOVAN]: [WETH[ChainId.KOVAN]]
+  [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
+  [ChainId.MOONBEAM_TEST]: [WETH[ChainId.MOONBEAM_TEST]],
 }
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, SUSHI, YAM, WBTC, RUNE, CREAM, BAC, FXS, CRV, ALPHA]
+  [ChainId.MAINNET]: [
+    ...WETH_ONLY[ChainId.MAINNET],
+    DAI,
+    USDC,
+    USDT,
+    SUSHI,
+    YAM,
+    WBTC,
+    RUNE,
+    CREAM,
+    BAC,
+    FXS,
+    CRV,
+    ALPHA
+  ]
 }
 
 /**

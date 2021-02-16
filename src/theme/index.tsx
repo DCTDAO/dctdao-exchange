@@ -1,14 +1,16 @@
-import { transparentize } from 'polished'
-import React, { useMemo } from 'react'
+//import { transparentize } from 'polished'
+//import React, { useMemo } from 'react
+import React from 'react'
 import styled, {
   ThemeProvider as StyledComponentsThemeProvider,
   createGlobalStyle,
   css,
   DefaultTheme
 } from 'styled-components'
-import { useIsDarkMode } from '../state/user/hooks'
+//import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
+import BackgroundImage from '../assets/images/background-min.png'
 
 export * from './components'
 
@@ -34,44 +36,44 @@ const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } 
 const white = '#FFFFFF'
 const black = '#000000'
 
-export function colors(darkMode: boolean): Colors {
+export function colors(): Colors {
   return {
     // base
     white,
     black,
 
     // text
-    text1: darkMode ? '#FFFFFF' : '#000000',
-    text2: darkMode ? '#C3C5CB' : '#565A69',
-    text3: darkMode ? '#6C7284' : '#9a7c64',
-    text4: darkMode ? '#565A69' : '#C3C5CB',
-    text5: darkMode ? '#2C2F36' : '#e6ddd6',
+    text1: '#FFFFFF',
+    text2: '#C3C5CB',
+    text3: '#6C7284',
+    text4: '#565A69',
+    text5: '#2C2F36',
 
     // backgrounds / greys
-    bg1: darkMode ? '#212429' : '#FFFFFF',
-    bg2: darkMode ? '#2C2F36' : '#fff7f2',
-    bg3: darkMode ? '#40444F' : '#e6ddd6',
-    bg4: darkMode ? '#565A69' : '#CED0D9',
-    bg5: darkMode ? '#6C7284' : '#9a7c64',
+    bg1: '#212429',
+    bg2: '#2C2F36',
+    bg3: '#40444F',
+    bg4: '#565A69',
+    bg5: '#6C7284',
 
     //specialty colors
-    modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
-    advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)',
+    modalBG: 'rgba(0,0,0,.425)',
+    advancedBG: 'rgba(0,0,0,0.1)',
 
     //primary colors
-    primary1: darkMode ? '#2172E5' : '#805e49',
-    primary2: darkMode ? '#3680E7' : '#88715f',
-    primary3: darkMode ? '#4D8FEA' : '#aa9585',
-    primary4: darkMode ? '#376bad70' : '#e2d6cf',
-    primary5: darkMode ? '#153d6f70' : '#f0e9e7',
+    primary1: '#2172E5',
+    primary2: '#3680E7',
+    primary3: '#4D8FEA',
+    primary4: '#376bad70',
+    primary5: '#153d6f70',
 
     // color text
-    primaryText1: darkMode ? '#6da8ff' : '#805e49',
+    primaryText1: '#6da8ff',
 
     // secondary colors
-    secondary1: darkMode ? '#2172E5' : '#805e49',
-    secondary2: darkMode ? '#17000b26' : '#e2d6cf',
-    secondary3: darkMode ? '#17000b26' : '#f0e9e7',
+    secondary1: '#2172E5',
+    secondary2: '#17000b26',
+    secondary3: '#17000b26',
 
     // other
     red1: '#FF6871',
@@ -86,9 +88,9 @@ export function colors(darkMode: boolean): Colors {
   }
 }
 
-export function theme(darkMode: boolean): DefaultTheme {
+export function theme(): DefaultTheme {
   return {
-    ...colors(darkMode),
+    ...colors(),
 
     grids: {
       sm: 8,
@@ -97,7 +99,7 @@ export function theme(darkMode: boolean): DefaultTheme {
     },
 
     //shadows
-    shadow1: darkMode ? '#000' : '#2F80ED',
+    shadow1: '#000',
 
     // media queries
     mediaWidth: mediaWidthTemplates,
@@ -115,9 +117,9 @@ export function theme(darkMode: boolean): DefaultTheme {
 }
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const darkMode = useIsDarkMode()
+  //const darkMode = useIsDarkMode()
 
-  const themeObject = useMemo(() => theme(darkMode), [darkMode])
+  const themeObject = theme()
 
   return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
 }
@@ -202,13 +204,16 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 `
-
+//background-color: ${({ theme }) => theme.bg2};
 export const ThemedGlobalStyle = createGlobalStyle`
 html {
   color: ${({ theme }) => theme.text1};
-  background-color: ${({ theme }) => theme.bg2};
+  background: url(${BackgroundImage})
 }
 
+
+`
+/* 
 body {
   min-height: 100vh;
   background-position: 0 -30vh;
@@ -216,4 +221,4 @@ body {
   background-image: ${({ theme }) =>
     `radial-gradient(50% 50% at 50% 50%, ${theme.primary5} 0%, ${transparentize(1, theme.primary4)} 100%)`};
 }
-`
+*/

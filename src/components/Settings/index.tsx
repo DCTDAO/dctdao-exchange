@@ -6,8 +6,8 @@ import {
   useUserSlippageTolerance,
   useExpertModeManager,
   useUserDeadline,
-  useDarkModeManager
 } from '../../state/user/hooks'
+//useDarkModeManager
 import TransactionSettings from '../TransactionSettings'
 import { RowFixed, RowBetween } from '../Row'
 import { TYPE } from '../../theme'
@@ -135,7 +135,7 @@ export default function SettingsTab() {
 
   const [expertMode, toggleExpertMode] = useExpertModeManager()
 
-  const [darkMode, toggleDarkMode] = useDarkModeManager()
+  //const [darkMode, toggleDarkMode] = useDarkModeManager()
 
   // show confirmation view before turning on
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -229,7 +229,16 @@ export default function SettingsTab() {
                 }
               />
             </RowBetween>
-            <RowBetween>
+            
+          </AutoColumn>
+        </MenuFlyout>
+      )}
+    </StyledMenu>
+  )
+}
+
+/*
+<RowBetween>
               <RowFixed>
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
                   {t('toggleDarkMode')}
@@ -237,9 +246,4 @@ export default function SettingsTab() {
               </RowFixed>
               <Toggle isActive={darkMode} toggle={toggleDarkMode} />
             </RowBetween>
-          </AutoColumn>
-        </MenuFlyout>
-      )}
-    </StyledMenu>
-  )
-}
+  */

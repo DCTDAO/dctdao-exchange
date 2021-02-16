@@ -1,14 +1,14 @@
-import { ChainId } from '@uniswap/sdk'
+import { ChainId } from '@dctdao/sdk'
 import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
 
 import styled from 'styled-components'
 
-import Logo from '../../assets/images/sushiswap-shiny-logo.png'
-import LogoDark from '../../assets/images/sushiswap-shiny-logo-dark.png'
+import Logo from '../../assets/images/mainlogo.png'
+//import LogoDark from '../../assets/images/sushiswap-shiny-logo-dark.png'
 import { useActiveWeb3React } from '../../hooks'
-import { useDarkModeManager } from '../../state/user/hooks'
+//import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
 import { YellowCard } from '../Card'
@@ -133,14 +133,15 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.RINKEBY]: 'Rinkeby',
   [ChainId.ROPSTEN]: 'Ropsten',
   [ChainId.GÖRLI]: 'Görli',
-  [ChainId.KOVAN]: 'Kovan'
+  [ChainId.KOVAN]: 'Kovan',
+  [ChainId.MOONBEAM_TEST]: 'MoonBeam testnet'
 }
 
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
-  const [isDark] = useDarkModeManager()
+  //const [isDark] = useDarkModeManager()
 
   return (
     <HeaderFrame>
@@ -148,7 +149,7 @@ export default function Header() {
         <HeaderElement>
           <Title href=".">
             <UniIcon>
-              <img style={{ height: 150 }} src={isDark ? LogoDark : Logo} alt="logo" />
+              <img style={{ height: 50}} src={Logo} alt="logo" />
             </UniIcon>
           </Title>
         </HeaderElement>
