@@ -1,10 +1,10 @@
-# SushiSwap Classic Exchange Interface
+# DCTDAO Classic Exchange Interface
 
-Forked from [Uniswap/uniswap-interface](https://github.com/Uniswap/uniswap-interface), and updated to work with SushiSwap contracts.
+Forked from [sushiswap/sushiswap-classic-exchange](https://github.com/sushiswap/sushiswap-classic-exchange), and updated to Moonbeam network.
 
-## Accessing the SushiSwap Classic Exchange Interface
+## Accessing the DCTDAO Exchange Interface
 
-To access the SushiSwap Exchange, visit [exchange.sushiswapclassic.org](https://exchange.sushiswapclassic.org/#/) or [exchange.sushiswap.fi](https://exchange.sushiswap.fi/#/).
+To access the DCTDAO Exchange, visit [dctdao](https://dctdao.org)
 
 ## Development
 
@@ -15,12 +15,14 @@ yarn
 ```
 
 ### Copy env variables
+
 ```bash
 cp .env.sample .env
 ```
+
 then fill that with correct env variables
 
-*note: will not have to do this when using MetaMask wallets
+\*note: will not have to do this when using MetaMask wallets
 
 ### Run
 
