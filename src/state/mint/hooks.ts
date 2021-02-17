@@ -55,11 +55,7 @@ export function useDerivedMintInfo(
   // pair
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
   const totalSupply = useTotalSupply(pair?.liquidityToken)
-  console.log("===================================")
-  console.log(currencies[Field.CURRENCY_A])
-  console.log(currencies[Field.CURRENCY_B])
-  console.log(pairState)
-  console.log(pair)
+
 
   const noLiquidity: boolean =
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))

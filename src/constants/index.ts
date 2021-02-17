@@ -1,8 +1,8 @@
 import { ChainId, JSBI, Percent, Token, WETH } from '@dctdao/sdk'
 import { AbstractConnector } from '@sushi-web3-react/abstract-connector'
 
-import { fortmatic, injected, portis, walletconnect, walletlink, lattice } from '../connectors'
-
+import {  injected } from '../connectors'
+//fortmatic, portis, walletconnect, walletlink, lattice
 //export const ROUTER_ADDRESS = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
 export const ROUTER_ADDRESS = '0x0dBF0f9288Cb1A22060F17A5B5bdcC260AB7d965'
 
@@ -109,7 +109,7 @@ export interface WalletInfo {
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
-  INJECTED: {
+ /* INJECTED: {
     connector: injected,
     name: 'Injected',
     iconName: 'arrow-right.svg',
@@ -117,7 +117,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#010101',
     primary: true
-  },
+  },*/
   METAMASK: {
     connector: injected,
     name: 'MetaMask',
@@ -125,7 +125,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     description: 'Easy-to-use browser extension.',
     href: null,
     color: '#E8831D'
-  },
+  }/*,
   WALLET_CONNECT: {
     connector: walletconnect,
     name: 'WalletConnect',
@@ -178,7 +178,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#4A6C9B',
     mobile: true
-  }
+  }*/
 }
 
 export const NetworkContextName = 'NETWORK'
