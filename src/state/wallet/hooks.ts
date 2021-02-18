@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@dctdao/sdk'
+import { Currency, CurrencyAmount, GLIMMER, JSBI, Token, TokenAmount } from '@dctdao/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
@@ -104,7 +104,7 @@ export function useCurrencyBalances(
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
+  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === GLIMMER) ?? false, [currencies])
   const ethBalance = useETHBalances(containsETH ? [account] : [])
 
   return useMemo(
@@ -114,7 +114,7 @@ export function useCurrencyBalances(
         if (currency instanceof Token) {
           return tokenBalances[currency.address]
         }
-        if (currency === ETHER) return ethBalance[account]
+        if (currency === GLIMMER) return ethBalance[account]
         return undefined
       }) ?? [],
     [account, currencies, ethBalance, tokenBalances]
