@@ -44,7 +44,7 @@ export const walletconnect = new WalletConnectConnector({
 export const lattice = new LatticeConnector({
   chainId: NETWORK_CHAIN_ID,
   url: NETWORK_URL,
-  appName: 'SushiSwap'
+  appName: 'DCTDEX'
 })
 
 // mainnet only

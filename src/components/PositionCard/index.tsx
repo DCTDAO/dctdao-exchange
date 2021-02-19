@@ -224,8 +224,8 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
             </FixedHeightRow>
 
             <AutoRow justify="center" marginTop={'10px'}>
-              <ExternalLink href={`https://sushiswap.vision/pair/${pair.liquidityToken.address}`}>
-                View pool information ↗
+              <ExternalLink href={`.....`}>
+                View pool information (comming soon) ↗
               </ExternalLink>
             </AutoRow>
             <RowBetween marginTop="10px">
@@ -242,3 +242,6 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
     </HoverCard>
   )
 }
+
+//https://sushiswap.vision/pair/${pair.liquidityToken.address}
+//instaed of .....
