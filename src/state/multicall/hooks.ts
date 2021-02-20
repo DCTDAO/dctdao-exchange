@@ -178,7 +178,7 @@ export function useSingleContractMultipleData(
         : [],
     [callInputs, contract, fragment]
   )
-
+  
   const results = useCallsData(calls, options)
 
   const latestBlockNumber = useBlockNumber()
@@ -236,7 +236,6 @@ export function useSingleCallResult(
   options?: ListenerOptions
 ): CallState {
   const fragment = useMemo(() => contract?.interface?.getFunction(methodName), [contract, methodName])
-
   const calls = useMemo<Call[]>(() => {
     return contract && fragment && isValidMethodArgs(inputs)
       ? [

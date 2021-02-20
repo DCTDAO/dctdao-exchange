@@ -14,15 +14,13 @@ import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { AutoRow, RowBetween } from '../../components/Row'
 import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown'
-import BetterTradeLink from '../../components/swap/BetterTradeLink'
 import confirmPriceImpactWithoutFee from '../../components/swap/confirmPriceImpactWithoutFee'
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../components/swap/styleds'
 import TradePrice from '../../components/swap/TradePrice'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import ProgressSteps from '../../components/ProgressSteps'
 
-import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
-import { getTradeVersion, isTradeBetter } from '../../data/V1'
+import { INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
@@ -81,7 +79,6 @@ export default function Swap() {
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
   const {
-    v1Trade,
     v2Trade,
     currencyBalances,
     parsedAmount,
@@ -99,16 +96,9 @@ export default function Swap() {
   const trade = showWrap
     ? undefined
     : {
-        [Version.v1]: v1Trade,
         [Version.v2]: v2Trade
       }[toggledVersion]
 
-  const betterTradeLinkVersion: Version | undefined =
-    toggledVersion === Version.v2 && isTradeBetter(v2Trade, v1Trade, BETTER_TRADE_LINK_THRESHOLD)
-      ? Version.v1
-      : toggledVersion === Version.v1 && isTradeBetter(v1Trade, v2Trade)
-      ? Version.v2
-      : undefined
 
   const parsedAmounts = showWrap
     ? {
@@ -214,7 +204,6 @@ export default function Swap() {
           label: [
             trade?.inputAmount?.currency?.symbol,
             trade?.outputAmount?.currency?.symbol,
-            getTradeVersion(trade)
           ].join('/')
         })
       })
@@ -470,7 +459,7 @@ export default function Swap() {
             )}
             {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}
             {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
-            {betterTradeLinkVersion && <BetterTradeLink version={betterTradeLinkVersion} />}
+            
           </BottomGrouping>
         </Wrapper>
       </AppBody>
@@ -478,3 +467,5 @@ export default function Swap() {
     </>
   )
 }
+
+//465: {betterTradeLinkVersion && <BetterTradeLink version={betterTradeLinkVersion} />}

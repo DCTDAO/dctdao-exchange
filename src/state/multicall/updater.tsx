@@ -119,11 +119,9 @@ export default function Updater(): null {
   const { chainId } = useActiveWeb3React()
   const multicallContract = useMulticallContract()
   const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>()
-
   const listeningKeys: { [callKey: string]: number } = useMemo(() => {
     return activeListeningKeys(debouncedListeners, chainId)
   }, [debouncedListeners, chainId])
-
   const unserializedOutdatedCallKeys = useMemo(() => {
     return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber)
   }, [chainId, state.callResults, listeningKeys, latestBlockNumber])
@@ -131,14 +129,12 @@ export default function Updater(): null {
   const serializedOutdatedCallKeys = useMemo(() => JSON.stringify(unserializedOutdatedCallKeys.sort()), [
     unserializedOutdatedCallKeys
   ])
-
   useEffect(() => {
     if (!latestBlockNumber || !chainId || !multicallContract) return
 
     const outdatedCallKeys: string[] = JSON.parse(serializedOutdatedCallKeys)
     if (outdatedCallKeys.length === 0) return
     const calls = outdatedCallKeys.map(key => parseCallKey(key))
-
     const chunkedCalls = chunkArray(calls, CALL_CHUNK_SIZE)
 
     if (cancellations.current?.blockNumber !== latestBlockNumber) {
@@ -152,7 +148,7 @@ export default function Updater(): null {
         fetchingBlockNumber: latestBlockNumber
       })
     )
-
+    
     cancellations.current = {
       blockNumber: latestBlockNumber,
       cancellations: chunkedCalls.map((chunk, index) => {
@@ -165,7 +161,7 @@ export default function Updater(): null {
           .then(({ results: returnData, blockNumber: fetchBlockNumber }) => {
             cancellations.current = { cancellations: [], blockNumber: latestBlockNumber }
 
-            // accumulates the length of all previous indices
+            // accumulates the length of all previous 
             const firstCallKeyIndex = chunkedCalls.slice(0, index).reduce<number>((memo, curr) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
 
