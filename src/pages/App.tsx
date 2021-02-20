@@ -15,7 +15,9 @@ import {
 import Pool from './Pool'
 import PoolFinder from './PoolFinder'
 import Swap from './Swap'
+import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -75,6 +77,8 @@ export default function App() {
                 <Route exact path="/add" component={AddLiquidity} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
                 <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+                <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
+                <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
                 <Route component={RedirectPathToSwapOnly} />
               </Switch>
             </Web3ReactManager>
