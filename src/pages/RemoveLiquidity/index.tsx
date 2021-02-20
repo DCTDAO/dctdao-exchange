@@ -116,7 +116,7 @@ export default function RemoveLiquidity({
       { name: 'verifyingContract', type: 'address' }
     ]
     const domain = {
-      name: 'DCTDEX LP Token',
+      name: 'Uniswap V2', //correct domain name!!!!!!!!!!!!!!!!!!!!!!!
       version: '1',
       chainId: chainId,
       verifyingContract: pair.liquidityToken.address
