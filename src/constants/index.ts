@@ -4,7 +4,7 @@ import { AbstractConnector } from '@sushi-web3-react/abstract-connector'
 import {  injected } from '../connectors'
 //fortmatic, portis, walletconnect, walletlink, lattice
 //export const ROUTER_ADDRESS = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
-export const ROUTER_ADDRESS = '0xC89Ce4735882C9F0f0FE26686c53074E09B0D550'
+export const ROUTER_ADDRESS = '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec'
 
 // a list of tokens by chain
 type ChainTokenList = {
