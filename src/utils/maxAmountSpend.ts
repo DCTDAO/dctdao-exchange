@@ -7,11 +7,11 @@ import { MIN_ETH } from '../constants'
  */
 export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount | undefined {
   if (!currencyAmount) return undefined
-  if (currencyAmount.currency === BASE_CURRENCY[1287]) {
+  if (currencyAmount.currency === BASE_CURRENCY[currencyAmount.currency.chainId]) {
     if (JSBI.greaterThan(currencyAmount.raw, MIN_ETH)) {
-      return CurrencyAmount.base(1287,JSBI.subtract(currencyAmount.raw, MIN_ETH))
+      return CurrencyAmount.base(currencyAmount.currency.chainId,JSBI.subtract(currencyAmount.raw, MIN_ETH))
     } else {
-      return CurrencyAmount.base(1287, JSBI.BigInt(0))
+      return CurrencyAmount.base(currencyAmount.currency.chainId, JSBI.BigInt(0))
     }
   }
   return currencyAmount

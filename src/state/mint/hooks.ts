@@ -89,7 +89,7 @@ export function useDerivedMintInfo(
           dependentField === Field.CURRENCY_B
             ? pair.priceOf(tokenA).quote(chainId, wrappedIndependentAmount)
             : pair.priceOf(tokenB).quote(chainId, wrappedIndependentAmount)
-        return dependentCurrency === BASE_CURRENCY[1287] ? CurrencyAmount.base(chainId, dependentTokenAmount.raw) : dependentTokenAmount
+        return dependentCurrency === BASE_CURRENCY[chainId] ? CurrencyAmount.base(chainId, dependentTokenAmount.raw) : dependentTokenAmount
       }
       return undefined
     } else {

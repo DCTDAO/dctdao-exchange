@@ -44,6 +44,7 @@ export function CurrencySearch({
 }: CurrencySearchProps) {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
+  if(!chainId) throw new Error("No ChainId")
   const theme = useContext(ThemeContext)
 
   const fixedList = useRef<FixedSizeList>()
@@ -121,7 +122,7 @@ export function CurrencySearch({
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
         if (s === 'eth') {
-          handleCurrencySelect(BASE_CURRENCY[1287])
+          handleCurrencySelect(BASE_CURRENCY[chainId])
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
@@ -132,7 +133,7 @@ export function CurrencySearch({
         }
       }
     },
-    [filteredSortedTokens, handleCurrencySelect, searchQuery]
+    [chainId, filteredSortedTokens, handleCurrencySelect, searchQuery]
   )
 
   const selectedListInfo = useSelectedListInfo()
@@ -180,6 +181,7 @@ export function CurrencySearch({
               otherCurrency={otherSelectedCurrency}
               selectedCurrency={selectedCurrency}
               fixedListRef={fixedList}
+              chainId={chainId}
             />
           )}
         </AutoSizer>

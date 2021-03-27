@@ -49,8 +49,9 @@ export default function RemoveLiquidity({
     params: { currencyIdA, currencyIdB }
   }
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
-  const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
   const { account, chainId, library } = useActiveWeb3React()
+  if(!chainId) throw new Error("No chainID")
+  const [currencyA, currencyB] = [useCurrency(chainId, currencyIdA) ?? undefined, useCurrency(chainId, currencyIdB) ?? undefined]
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
     currencyA,
     currencyB,
@@ -104,6 +105,9 @@ export default function RemoveLiquidity({
   }
   const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], ROUTER_ADDRESS[chainId])
   async function onAttemptToApprove() {
+    if(!chainId){
+      throw new Error('No ChainId')
+    }
     if (!pairContract || !pair || !library) throw new Error('missing dependencies')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
@@ -133,7 +137,7 @@ export default function RemoveLiquidity({
     ]
     const message = {
       owner: account,
-      spender: ROUTER_ADDRESS[1287],
+      spender: ROUTER_ADDRESS[chainId],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadlineForSignature
@@ -205,8 +209,8 @@ export default function RemoveLiquidity({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === BASE_CURRENCY[1287]
-    const oneCurrencyIsETH = currencyA === BASE_CURRENCY[1287] || currencyBIsETH
+    const currencyBIsETH = currencyB === BASE_CURRENCY[chainId]
+    const oneCurrencyIsETH = currencyA === BASE_CURRENCY[chainId] || currencyBIsETH
     const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline
 
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -426,7 +430,7 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsETH = currencyA === BASE_CURRENCY[1287] || currencyB === BASE_CURRENCY[1287]
+  const oneCurrencyIsETH = currencyA === BASE_CURRENCY[chainId] || currencyB === BASE_CURRENCY[chainId]
   const oneCurrencyIsWRAPPED = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WRAPPED[chainId], currencyA)) ||
@@ -562,8 +566,8 @@ export default function RemoveLiquidity({
                       <RowBetween style={{ justifyContent: 'flex-end' }}>
                         {oneCurrencyIsETH ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA === BASE_CURRENCY[1287] ? WRAPPED[chainId].address : currencyIdA}/${
-                              currencyB === BASE_CURRENCY[1287] ? WRAPPED[chainId].address : currencyIdB
+                            to={`/remove/${currencyA === BASE_CURRENCY[chainId] ? WRAPPED[chainId].address : currencyIdA}/${
+                              currencyB === BASE_CURRENCY[chainId] ? WRAPPED[chainId].address : currencyIdB
                             }`}
                           >
                             Receive WRAPPED

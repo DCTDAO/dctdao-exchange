@@ -33,8 +33,8 @@ export default function CurrencyLogo({
 }) {
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
   const srcs: string[] = useMemo(() => {
-    if (currency === BASE_CURRENCY[1287]) return []
-
+    if(currency?.chainId != null)
+      if (currency === BASE_CURRENCY[currency?.chainId]) return []
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
         return [...uriLocations, getTokenLogoURL(currency.address)]
@@ -44,10 +44,10 @@ export default function CurrencyLogo({
     }
     return []
   }, [currency, uriLocations])
-
-  if (currency === BASE_CURRENCY[1287]) {
-    return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
-  }
+  if(currency?.chainId != null)
+    if (currency === BASE_CURRENCY[currency?.chainId]) {
+      return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
+    }
 
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

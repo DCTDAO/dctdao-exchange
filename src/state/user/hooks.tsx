@@ -34,8 +34,8 @@ function deserializeToken(serializedToken: SerializedToken): Token {
     serializedToken.chainId,
     serializedToken.address,
     serializedToken.decimals,
-    serializedToken.symbol,
-    serializedToken.name
+    serializedToken.symbol ?? '',
+    serializedToken.name ?? ''
   )
 }
 

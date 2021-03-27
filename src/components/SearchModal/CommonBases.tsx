@@ -34,6 +34,10 @@ export default function CommonBases({
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
+  let myChainId : ChainId = ChainId.MOONBEAM_TEST
+  if(chainId !== undefined){
+    myChainId = chainId
+  }
   return (
     <AutoColumn gap="md">
       <AutoRow>
@@ -45,13 +49,13 @@ export default function CommonBases({
       <AutoRow gap="4px">
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, BASE_CURRENCY[1287])) {
-              onSelect(BASE_CURRENCY[1287])
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, BASE_CURRENCY[myChainId])) {
+              onSelect(BASE_CURRENCY[myChainId])
             }
           }}
-          disable={selectedCurrency === BASE_CURRENCY[1287]}
+          disable={selectedCurrency === BASE_CURRENCY[myChainId]}
         >
-          <CurrencyLogo currency={BASE_CURRENCY[1287]} style={{ marginRight: 8 }} />
+          <CurrencyLogo currency={BASE_CURRENCY[myChainId]} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
             ETH
           </Text>

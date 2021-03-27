@@ -46,9 +46,9 @@ export default function AddLiquidity({
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
   const { account, chainId, library } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
-
-  const currencyA = useCurrency(currencyIdA)
-  const currencyB = useCurrency(currencyIdB)
+  if(!chainId) throw new Error("No ChainId")
+  const currencyA = useCurrency(chainId, currencyIdA)
+  const currencyB = useCurrency(chainId, currencyIdB)
 
   const oneCurrencyIsWRAPPED = Boolean(
     chainId &&
@@ -144,8 +144,8 @@ export default function AddLiquidity({
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === BASE_CURRENCY[1287] || currencyB === BASE_CURRENCY[1287]) {
-      const tokenBIsETH = currencyB === BASE_CURRENCY[1287]
+    if (currencyA === BASE_CURRENCY[chainId] || currencyB === BASE_CURRENCY[chainId]) {
+      const tokenBIsETH = currencyB === BASE_CURRENCY[chainId]
       estimate = router.estimateGas.addLiquidityETH
       method = router.addLiquidityETH
       args = [

@@ -23,7 +23,8 @@ export function useApproveCallback(
   amountToApprove?: CurrencyAmount,
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
-  const { account } = useActiveWeb3React()
+  const { account, chainId} = useActiveWeb3React()
+  if (!chainId) throw new Error("ChainId not defined")
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
@@ -31,7 +32,7 @@ export function useApproveCallback(
   // check the current approval status
   const approvalState: ApprovalState = useMemo(() => {
     if (!amountToApprove || !spender) return ApprovalState.UNKNOWN
-    if (amountToApprove.currency === BASE_CURRENCY[1287]) return ApprovalState.APPROVED
+    if (amountToApprove.currency === BASE_CURRENCY[chainId]) return ApprovalState.APPROVED
     // we might not have enough data to know whether or not we need to approve
     if (!currentAllowance) return ApprovalState.UNKNOWN
 
@@ -41,7 +42,7 @@ export function useApproveCallback(
         ? ApprovalState.PENDING
         : ApprovalState.NOT_APPROVED
       : ApprovalState.APPROVED
-  }, [amountToApprove, currentAllowance, pendingApproval, spender])
+  }, [chainId, amountToApprove, currentAllowance, pendingApproval, spender])
 
   const tokenContract = useTokenContract(token?.address)
   const addTransaction = useTransactionAdder()

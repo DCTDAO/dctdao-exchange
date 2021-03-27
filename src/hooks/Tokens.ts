@@ -1,5 +1,5 @@
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, BASE_CURRENCY, Token, currencyEquals } from '@dctdao/sdk'
+import { Token, currencyEquals, Currency, BASE_CURRENCY, ChainId  } from '@dctdao/sdk'
 import { useMemo } from 'react'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
@@ -101,8 +101,11 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
   ])
 }
 
-export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const isETH = currencyId?.toUpperCase() === 'ETH'
-  const token = useToken(isETH ? undefined : currencyId)
-  return isETH ? BASE_CURRENCY[1287] : token
+export function useCurrency(chainId: ChainId, currencyId: string | undefined): Currency | null | undefined {
+  const isBase = Object.values(BASE_CURRENCY).map((curr: Currency) => curr.symbol).some(
+    (name) => (currencyId?.toUpperCase() === name))
+
+  //const isBase = currencyId?.toUpperCase() === 'ETH'
+  const token = useToken(isBase ? undefined : currencyId)
+  return isBase ? BASE_CURRENCY[chainId] : token
 }

@@ -33,7 +33,7 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === BASE_CURRENCY[1287] ? 'ETH' : ''
+          currencyId: currency instanceof Token ? currency.address : currency === BASE_CURRENCY[currency.chainId] ? 'ETH' : ''
         })
       )
     },
@@ -76,7 +76,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     if (typedValueParsed !== '0') {
       return currency instanceof Token
         ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.base(1287, JSBI.BigInt(typedValueParsed))
+        : CurrencyAmount.base(currency.chainId, JSBI.BigInt(typedValueParsed))
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
@@ -112,8 +112,8 @@ export function useDerivedSwapInfo(): {
   v2Trade: Trade | undefined
   inputError?: string
 } {
-  const { account } = useActiveWeb3React()
-
+  const { account, chainId } = useActiveWeb3React()
+  if(!chainId) throw new Error("No chain Id")
 
   const { t } = useTranslation()
 
@@ -125,8 +125,8 @@ export function useDerivedSwapInfo(): {
     recipient
   } = useSwapState()
 
-  const inputCurrency = useCurrency(inputCurrencyId)
-  const outputCurrency = useCurrency(outputCurrencyId)
+  const inputCurrency = useCurrency(chainId, inputCurrencyId)
+  const outputCurrency = useCurrency(chainId, outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
 

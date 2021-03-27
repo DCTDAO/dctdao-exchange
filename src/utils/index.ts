@@ -16,15 +16,9 @@ export function isAddress(value: any): string | false {
     return false
   }
 }
-/*
-const BASE_CURRENCY[1287]SCAN_PREFIXES: { [chainId in ChainId]: string } = {
-  1: '',
-  1287: 'xxxxxxxxx',
-}
-*/
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
-  //const prefix = `https://${BASE_CURRENCY[1287]SCAN_PREFIXES[chainId] || BASE_CURRENCY[1287]SCAN_PREFIXES[1]}etherscan.io`
+  //const prefix = `https://${BASE_CURRENCY SCAN_PREFIXES[chainId] || BASE_CURRENCY SCAN_PREFIXES[1]}etherscan.io`
   const prefix = "https://moonbeam-explorer.netlify.app"
   switch (type) {
     case 'transaction': {
@@ -99,6 +93,9 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-  if (currency === BASE_CURRENCY[1287]) return true
+  if(!currency){
+    return false;
+  }
+  if (currency === BASE_CURRENCY[currency?.chainId]) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }

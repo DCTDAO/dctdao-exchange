@@ -47,11 +47,12 @@ import Loader from '../../components/Loader'
 export default function Swap() {
   const { t } = useTranslation()
   const loadedUrlParams = useDefaultsFromURLSearch()
-
+  const { account, chainId } = useActiveWeb3React()
+  if(!chainId) throw new Error("No ChainId")
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
-    useCurrency(loadedUrlParams?.inputCurrencyId),
-    useCurrency(loadedUrlParams?.outputCurrencyId)
+    useCurrency(chainId, loadedUrlParams?.inputCurrencyId),
+    useCurrency(chainId, loadedUrlParams?.outputCurrencyId)
   ]
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
   const urlLoadedTokens: Token[] = useMemo(
@@ -62,7 +63,7 @@ export default function Swap() {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account } = useActiveWeb3React()
+  
   const theme = useContext(ThemeContext)
 
   // toggle wallet when disconnected
