@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, GLIMMER, JSBI, Token, TokenAmount } from '@dctdao/sdk'
+import { Currency, CurrencyAmount, BASE_CURRENCY, JSBI, Token, TokenAmount } from '@dctdao/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
@@ -36,7 +36,7 @@ export function useETHBalances(
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0]
-        if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()))
+        if (value) memo[address] = CurrencyAmount.base(1287, JSBI.BigInt(value.toString()))
         return memo
       }, {}),
     [addresses, results]
@@ -104,7 +104,7 @@ export function useCurrencyBalances(
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === GLIMMER) ?? false, [currencies])
+  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === BASE_CURRENCY[1287]) ?? false, [currencies])
   const ethBalance = useETHBalances(containsETH ? [account] : [])
 
   return useMemo(
@@ -114,7 +114,7 @@ export function useCurrencyBalances(
         if (currency instanceof Token) {
           return tokenBalances[currency.address]
         }
-        if (currency === GLIMMER) return ethBalance[account]
+        if (currency === BASE_CURRENCY[1287]) return ethBalance[account]
         return undefined
       }) ?? [],
     [account, currencies, ethBalance, tokenBalances]

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'rebass'
-import { ChainId, Currency, currencyEquals, GLIMMER, Token } from '@dctdao/sdk'
+import { ChainId, Currency, currencyEquals, BASE_CURRENCY, Token } from '@dctdao/sdk'
 import styled from 'styled-components'
 
 import { SUGGESTED_BASES } from '../../constants'
@@ -45,13 +45,13 @@ export default function CommonBases({
       <AutoRow gap="4px">
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, GLIMMER)) {
-              onSelect(GLIMMER)
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, BASE_CURRENCY[1287])) {
+              onSelect(BASE_CURRENCY[1287])
             }
           }}
-          disable={selectedCurrency === GLIMMER}
+          disable={selectedCurrency === BASE_CURRENCY[1287]}
         >
-          <CurrencyLogo currency={GLIMMER} style={{ marginRight: 8 }} />
+          <CurrencyLogo currency={BASE_CURRENCY[1287]} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
             ETH
           </Text>

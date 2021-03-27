@@ -1,7 +1,7 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, GLIMMER, Percent, WGLMR } from '@dctdao/sdk'
+import { Currency, currencyEquals, BASE_CURRENCY, Percent, WRAPPED } from '@dctdao/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -205,8 +205,8 @@ export default function RemoveLiquidity({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === GLIMMER
-    const oneCurrencyIsETH = currencyA === GLIMMER || currencyBIsETH
+    const currencyBIsETH = currencyB === BASE_CURRENCY[1287]
+    const oneCurrencyIsETH = currencyA === BASE_CURRENCY[1287] || currencyBIsETH
     const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline
 
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -426,11 +426,11 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsETH = currencyA === GLIMMER || currencyB === GLIMMER
-  const oneCurrencyIsWGLMR = Boolean(
+  const oneCurrencyIsETH = currencyA === BASE_CURRENCY[1287] || currencyB === BASE_CURRENCY[1287]
+  const oneCurrencyIsWRAPPED = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(WGLMR[chainId], currencyA)) ||
-        (currencyB && currencyEquals(WGLMR[chainId], currencyB)))
+      ((currencyA && currencyEquals(WRAPPED[chainId], currencyA)) ||
+        (currencyB && currencyEquals(WRAPPED[chainId], currencyB)))
   )
 
   const handleSelectCurrencyA = useCallback(
@@ -558,21 +558,21 @@ export default function RemoveLiquidity({
                         </Text>
                       </RowFixed>
                     </RowBetween>
-                    {chainId && (oneCurrencyIsWGLMR || oneCurrencyIsETH) ? (
+                    {chainId && (oneCurrencyIsWRAPPED || oneCurrencyIsETH) ? (
                       <RowBetween style={{ justifyContent: 'flex-end' }}>
                         {oneCurrencyIsETH ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA === GLIMMER ? WGLMR[chainId].address : currencyIdA}/${
-                              currencyB === GLIMMER ? WGLMR[chainId].address : currencyIdB
+                            to={`/remove/${currencyA === BASE_CURRENCY[1287] ? WRAPPED[chainId].address : currencyIdA}/${
+                              currencyB === BASE_CURRENCY[1287] ? WRAPPED[chainId].address : currencyIdB
                             }`}
                           >
-                            Receive WGLMR
+                            Receive WRAPPED
                           </StyledInternalLink>
-                        ) : oneCurrencyIsWGLMR ? (
+                        ) : oneCurrencyIsWRAPPED ? (
                           <StyledInternalLink
                             to={`/remove/${
-                              currencyA && currencyEquals(currencyA, WGLMR[chainId]) ? 'ETH' : currencyIdA
-                            }/${currencyB && currencyEquals(currencyB, WGLMR[chainId]) ? 'ETH' : currencyIdB}`}
+                              currencyA && currencyEquals(currencyA, WRAPPED[chainId]) ? 'ETH' : currencyIdA
+                            }/${currencyB && currencyEquals(currencyB, WRAPPED[chainId]) ? 'ETH' : currencyIdB}`}
                           >
                             Receive ETH
                           </StyledInternalLink>
@@ -685,7 +685,7 @@ export default function RemoveLiquidity({
 
       {pair ? (
         <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWGLMR} pair={pair} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWRAPPED} pair={pair} />
         </AutoColumn>
       ) : null}
     </>

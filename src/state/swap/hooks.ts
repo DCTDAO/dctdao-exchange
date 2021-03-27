@@ -1,6 +1,6 @@
 import useENS from '../../hooks/useENS'
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, GLIMMER, JSBI, Token, TokenAmount, Trade } from '@dctdao/sdk'
+import { Currency, CurrencyAmount, BASE_CURRENCY, JSBI, Token, TokenAmount, Trade } from '@dctdao/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,7 +33,7 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === GLIMMER ? 'ETH' : ''
+          currencyId: currency instanceof Token ? currency.address : currency === BASE_CURRENCY[1287] ? 'ETH' : ''
         })
       )
     },
@@ -76,7 +76,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     if (typedValueParsed !== '0') {
       return currency instanceof Token
         ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed))
+        : CurrencyAmount.base(1287, JSBI.BigInt(typedValueParsed))
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)

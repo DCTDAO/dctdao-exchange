@@ -130,7 +130,8 @@ const MasterChefText = styled.span`
 
 const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
-  [ChainId.MOONBEAM_TEST]: 'Moonbeam testnet'
+  [ChainId.MOONBEAM_TEST]: 'Moonbeam testnet',
+  [ChainId.BINANCE_TEST]: 'Binance testnet',
 }
 
 export default function Header() {

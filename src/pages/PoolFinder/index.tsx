@@ -1,4 +1,4 @@
-import { Currency, GLIMMER, JSBI, TokenAmount } from '@dctdao/sdk'
+import { Currency, BASE_CURRENCY, JSBI, TokenAmount } from '@dctdao/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'
@@ -30,7 +30,7 @@ export default function PoolFinder() {
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(GLIMMER)
+  const [currency0, setCurrency0] = useState<Currency | null>(BASE_CURRENCY[1287])
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)

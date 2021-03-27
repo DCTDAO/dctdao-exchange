@@ -1,4 +1,4 @@
-import { Currency, GLIMMER, Token } from '@dctdao/sdk'
+import { Currency, BASE_CURRENCY, Token } from '@dctdao/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -32,9 +32,8 @@ export default function CurrencyLogo({
   style?: React.CSSProperties
 }) {
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
-
   const srcs: string[] = useMemo(() => {
-    if (currency === GLIMMER) return []
+    if (currency === BASE_CURRENCY[1287]) return []
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
@@ -46,7 +45,7 @@ export default function CurrencyLogo({
     return []
   }, [currency, uriLocations])
 
-  if (currency === GLIMMER) {
+  if (currency === BASE_CURRENCY[1287]) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
   }
 

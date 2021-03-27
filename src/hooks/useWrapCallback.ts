@@ -1,10 +1,10 @@
-import { Currency, currencyEquals, GLIMMER, WGLMR } from '@dctdao/sdk'
+import { Currency, currencyEquals, BASE_CURRENCY, WRAPPED } from '@dctdao/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
-import { useWGLMRContract } from './useContract'
+import { useWRAPPEDContract } from './useContract'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -25,7 +25,7 @@ export default function useWrapCallback(
   typedValue: string | undefined
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
-  const wethContract = useWGLMRContract()
+  const wethContract = useWRAPPEDContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
   const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
@@ -36,7 +36,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === GLIMMER && currencyEquals(WGLMR[chainId], outputCurrency)) {
+    if (inputCurrency === BASE_CURRENCY[1287] && currencyEquals(WRAPPED[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -44,7 +44,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} ETH to WGLMR` })
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} ETH to WRAPPED` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
@@ -52,7 +52,7 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : 'Insufficient ETH balance'
       }
-    } else if (currencyEquals(WGLMR[chainId], inputCurrency) && outputCurrency === GLIMMER) {
+    } else if (currencyEquals(WRAPPED[chainId], inputCurrency) && outputCurrency === BASE_CURRENCY[1287]) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:
@@ -60,13 +60,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WGLMR to ETH` })
+                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WRAPPED to ETH` })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WGLMR balance'
+        inputError: sufficientBalance ? undefined : 'Insufficient WRAPPED balance'
       }
     } else {
       return NOT_APPLICABLE

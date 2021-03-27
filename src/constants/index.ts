@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WGLMR } from '@dctdao/sdk'
+import { ChainId, JSBI, Percent, Token, WRAPPED } from '@dctdao/sdk'
 import { AbstractConnector } from '@sushi-web3-react/abstract-connector'
 
 import {  injected } from '../connectors'
@@ -8,7 +8,8 @@ import {  injected } from '../connectors'
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = 
 { 
   [ChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441', 
-  [ChainId.MOONBEAM_TEST]: '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec' 
+  [ChainId.MOONBEAM_TEST]: '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec' ,
+  [ChainId.BINANCE_TEST]: '0x405fC0EE23C7fcd0a41A864505Fe8c969ca3eF6A',
 }
 
 // a list of tokens by chain
@@ -40,16 +41,17 @@ export const CRV = new Token(
 export const ALPHA = new Token(ChainId.MAINNET, '0xa1faa113cbE53436Df28FF0aEe54275c13B40975', 18, 'ALPHA', 'AlphaToken')
 
 
-const WGLMR_ONLY: ChainTokenList = {
-  [ChainId.MAINNET]: [WGLMR[ChainId.MAINNET]],
-  [ChainId.MOONBEAM_TEST]: [WGLMR[ChainId.MOONBEAM_TEST]],
+const WRAPPED_ONLY: ChainTokenList = {
+  [ChainId.MAINNET]: [WRAPPED[ChainId.MAINNET]],
+  [ChainId.MOONBEAM_TEST]: [WRAPPED[ChainId.MOONBEAM_TEST]],
+  [ChainId.BINANCE_TEST]: [WRAPPED[ChainId.BINANCE_TEST]]
 }
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  ...WGLMR_ONLY,
+  ...WRAPPED_ONLY,
   [ChainId.MAINNET]: [
-    ...WGLMR_ONLY[ChainId.MAINNET],
+    ...WRAPPED_ONLY[ChainId.MAINNET],
     DAI,
     USDC,
     USDT,
@@ -71,20 +73,20 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
   [ChainId.MAINNET]: {
-    [AMPL.address]: [DAI, WGLMR[ChainId.MAINNET]]
+    [AMPL.address]: [DAI, WRAPPED[ChainId.MAINNET]]
   }
 }
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  ...WGLMR_ONLY,
-  [ChainId.MAINNET]: [...WGLMR_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
+  ...WRAPPED_ONLY,
+  [ChainId.MAINNET]: [...WRAPPED_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  ...WGLMR_ONLY,
-  [ChainId.MAINNET]: [...WGLMR_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
+  ...WRAPPED_ONLY,
+  [ChainId.MAINNET]: [...WRAPPED_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

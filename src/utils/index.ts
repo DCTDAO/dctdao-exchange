@@ -5,7 +5,7 @@ import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 import { ROUTER_ADDRESS } from '../constants'
-import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, GLIMMER } from '@dctdao/sdk'
+import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, BASE_CURRENCY } from '@dctdao/sdk'
 import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -17,14 +17,14 @@ export function isAddress(value: any): string | false {
   }
 }
 /*
-const GLIMMERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
+const BASE_CURRENCY[1287]SCAN_PREFIXES: { [chainId in ChainId]: string } = {
   1: '',
   1287: 'xxxxxxxxx',
 }
 */
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
-  //const prefix = `https://${GLIMMERSCAN_PREFIXES[chainId] || GLIMMERSCAN_PREFIXES[1]}etherscan.io`
+  //const prefix = `https://${BASE_CURRENCY[1287]SCAN_PREFIXES[chainId] || BASE_CURRENCY[1287]SCAN_PREFIXES[1]}etherscan.io`
   const prefix = "https://moonbeam-explorer.netlify.app"
   switch (type) {
     case 'transaction': {
@@ -99,6 +99,6 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-  if (currency === GLIMMER) return true
+  if (currency === BASE_CURRENCY[1287]) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, currencyEquals, GLIMMER, Token } from '@dctdao/sdk'
+import { Currency, CurrencyAmount, currencyEquals, BASE_CURRENCY, Token } from '@dctdao/sdk'
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
@@ -18,7 +18,7 @@ import Loader from '../Loader'
 import { isTokenOnList } from '../../utils'
 
 function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === GLIMMER ? 'GLIMMER' : ''
+  return currency instanceof Token ? currency.address : currency === BASE_CURRENCY[1287] ? 'BASE_CURRENCY[1287]' : ''
 }
 
 const StyledBalanceText = styled(Text)`
@@ -171,7 +171,7 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const itemData = useMemo(() => (showETH ? [Currency.GLIMMER, ...currencies] : currencies), [currencies, showETH])
+  const itemData = useMemo(() => (showETH ? [Currency.BASE_CURRENCY[1287], ...currencies] : currencies), [currencies, showETH])
 
   const Row = useCallback(
     ({ data, index, style }) => {

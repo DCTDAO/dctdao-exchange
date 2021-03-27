@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, GLIMMER, JSBI, Pair, Percent, Price, TokenAmount } from '@dctdao/sdk'
+import { Currency, CurrencyAmount, BASE_CURRENCY, JSBI, Pair, Percent, Price, TokenAmount } from '@dctdao/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
@@ -81,14 +81,15 @@ export function useDerivedMintInfo(
     } else if (independentAmount) {
       // we wrap the currencies just to get the price in terms of the other token
       const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId)
+      if(!chainId) throw new Error("Undefined chainId")
       const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
       if (tokenA && tokenB && wrappedIndependentAmount && pair) {
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        return dependentCurrency === GLIMMER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+            ? pair.priceOf(tokenA).quote(chainId, wrappedIndependentAmount)
+            : pair.priceOf(tokenB).quote(chainId, wrappedIndependentAmount)
+        return dependentCurrency === BASE_CURRENCY[1287] ? CurrencyAmount.base(chainId, dependentTokenAmount.raw) : dependentTokenAmount
       }
       return undefined
     } else {

@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, GLIMMER, TokenAmount, WGLMR } from '@dctdao/sdk'
+import { Currency, currencyEquals, BASE_CURRENCY, TokenAmount, WRAPPED } from '@dctdao/sdk'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -50,10 +50,10 @@ export default function AddLiquidity({
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
-  const oneCurrencyIsWGLMR = Boolean(
+  const oneCurrencyIsWRAPPED = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(currencyA, WGLMR[chainId])) ||
-        (currencyB && currencyEquals(currencyB, WGLMR[chainId])))
+      ((currencyA && currencyEquals(currencyA, WRAPPED[chainId])) ||
+        (currencyB && currencyEquals(currencyB, WRAPPED[chainId])))
   )
 
   const toggleWalletModal = useWalletModalToggle() // toggle wallet when disconnected
@@ -144,8 +144,8 @@ export default function AddLiquidity({
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === GLIMMER || currencyB === GLIMMER) {
-      const tokenBIsETH = currencyB === GLIMMER
+    if (currencyA === BASE_CURRENCY[1287] || currencyB === BASE_CURRENCY[1287]) {
+      const tokenBIsETH = currencyB === BASE_CURRENCY[1287]
       estimate = router.estimateGas.addLiquidityETH
       method = router.addLiquidityETH
       args = [
@@ -448,7 +448,7 @@ export default function AddLiquidity({
 
       {pair && !noLiquidity && pairState !== PairState.INVALID ? (
         <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWGLMR} pair={pair} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWRAPPED} pair={pair} />
         </AutoColumn>
       ) : null}
     </>

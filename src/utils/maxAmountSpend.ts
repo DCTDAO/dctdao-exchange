@@ -1,4 +1,4 @@
-import { CurrencyAmount, GLIMMER, JSBI } from '@dctdao/sdk'
+import { CurrencyAmount, BASE_CURRENCY, JSBI } from '@dctdao/sdk'
 import { MIN_ETH } from '../constants'
 
 /**
@@ -7,11 +7,11 @@ import { MIN_ETH } from '../constants'
  */
 export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount | undefined {
   if (!currencyAmount) return undefined
-  if (currencyAmount.currency === GLIMMER) {
+  if (currencyAmount.currency === BASE_CURRENCY[1287]) {
     if (JSBI.greaterThan(currencyAmount.raw, MIN_ETH)) {
-      return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_ETH))
+      return CurrencyAmount.base(1287,JSBI.subtract(currencyAmount.raw, MIN_ETH))
     } else {
-      return CurrencyAmount.ether(JSBI.BigInt(0))
+      return CurrencyAmount.base(1287, JSBI.BigInt(0))
     }
   }
   return currencyAmount
