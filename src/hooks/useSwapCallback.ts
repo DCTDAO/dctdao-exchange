@@ -116,7 +116,6 @@ export function useSwapCallback(
       }
     }
 
-
     return {
       state: SwapCallbackState.VALID,
       callback: async function onSwap(): Promise<string> {

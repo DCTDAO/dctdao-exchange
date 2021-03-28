@@ -125,6 +125,7 @@ export default function AddLiquidity({
   const addTransaction = useTransactionAdder()
 
   async function onAdd() {
+    
     if (!chainId || !library || !account) return
     const router = getRouterContract(chainId, library, account)
 
@@ -172,16 +173,16 @@ export default function AddLiquidity({
       ]
       value = null
     }
-
+    
     setAttemptingTxn(true)
+    console.log(args)
     await estimate(...args, value ? { value } : {})
-      .then(estimatedGasLimit =>
-        method(...args, {
+      .then(estimatedGasLimit => {
+        return method(...args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit)
         }).then(response => {
           setAttemptingTxn(false)
-
           addTransaction(response, {
             summary:
               'Add ' +
@@ -202,7 +203,7 @@ export default function AddLiquidity({
             label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
           })
         })
-      )
+      })
       .catch(error => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx

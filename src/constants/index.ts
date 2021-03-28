@@ -9,7 +9,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } =
 { 
   [ChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441', 
   [ChainId.MOONBEAM_TEST]: '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec' ,
-  [ChainId.BINANCE_TEST]: '0x405fC0EE23C7fcd0a41A864505Fe8c969ca3eF6A',
+  [ChainId.BINANCE_TEST]: '0x6ED5f9899e0975d306dd9AA95A73C52af84D5B7c',
 }
 
 // a list of tokens by chain
