@@ -575,8 +575,8 @@ export default function RemoveLiquidity({
                         ) : oneCurrencyIsWRAPPED ? (
                           <StyledInternalLink
                             to={`/remove/${
-                              currencyA && currencyEquals(currencyA, WRAPPED[chainId]) ? 'ETH' : currencyIdA
-                            }/${currencyB && currencyEquals(currencyB, WRAPPED[chainId]) ? 'ETH' : currencyIdB}`}
+                              currencyA && currencyEquals(currencyA, WRAPPED[chainId]) ? BASE_CURRENCY[chainId].symbol : currencyIdA
+                            }/${currencyB && currencyEquals(currencyB, WRAPPED[chainId]) ? BASE_CURRENCY[chainId].symbol : currencyIdB}`}
                           >
                             Receive ETH
                           </StyledInternalLink>

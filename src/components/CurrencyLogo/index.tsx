@@ -10,6 +10,10 @@ import Logo from '../Logo'
 const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
+/* TODO my fix */
+const getTokenLogoDctDaoURL = () =>
+`https://raw.githubusercontent.com/DCTDAO/token-list/master/assets/dct.png`
+
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
@@ -37,10 +41,10 @@ export default function CurrencyLogo({
       if (currency === BASE_CURRENCY[currency?.chainId]) return []
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)]
+        return [...uriLocations, getTokenLogoURL(currency.address), getTokenLogoDctDaoURL()]
       }
 
-      return [getTokenLogoURL(currency.address)]
+      return [getTokenLogoURL(currency.address), getTokenLogoDctDaoURL()]
     }
     return []
   }, [currency, uriLocations])

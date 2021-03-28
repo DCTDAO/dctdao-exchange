@@ -1,4 +1,4 @@
-import { ChainId } from '@dctdao/sdk'
+import { BASE_CURRENCY, ChainId } from '@dctdao/sdk'
 import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
@@ -132,6 +132,7 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
   [ChainId.MOONBEAM_TEST]: 'Moonbeam testnet',
   [ChainId.BINANCE_TEST]: 'Binance testnet',
+  [ChainId.ROPSTEN]: 'Ropsten'
 }
 
 export default function Header() {
@@ -158,7 +159,7 @@ export default function Header() {
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                  {userEthBalance?.toSignificant(4)} ETH
+                  {chainId && userEthBalance?.toSignificant(4) + " " +BASE_CURRENCY[chainId].symbol} 
                 </BalanceText>
               ) : null}
               <Web3Status />

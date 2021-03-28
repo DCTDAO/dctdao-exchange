@@ -125,7 +125,6 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 
 export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const { account } = useActiveWeb3React()
-
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
@@ -225,7 +224,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
 
             <AutoRow justify="center" marginTop={'10px'}>
               <ExternalLink href={`.....`}>
-                View pool information (comming soon) ↗
+                View pool information ↗
               </ExternalLink>
             </AutoRow>
             <RowBetween marginTop="10px">

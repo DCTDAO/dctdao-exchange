@@ -19,7 +19,23 @@ export function isAddress(value: any): string | false {
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
   //const prefix = `https://${BASE_CURRENCY SCAN_PREFIXES[chainId] || BASE_CURRENCY SCAN_PREFIXES[1]}etherscan.io`
-  const prefix = "https://moonbeam-explorer.netlify.app"
+  let prefix;
+  switch(chainId){
+    case ChainId.MOONBEAM_TEST:
+      prefix = "https://moonbeam-explorer.netlify.app/"
+      break
+    case ChainId.BINANCE_TEST:
+      prefix = "https://testnet.bscscan.com/"
+      break
+    case ChainId.ROPSTEN:
+      prefix = "https://ropsten.etherscan.io/"
+      break
+    case ChainId.MAINNET:
+      prefix = "https://etherscan.io/"
+      break
+  }
+  
+  
   switch (type) {
     case 'transaction': {
       return `${prefix}/tx/${data}`

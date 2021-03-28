@@ -175,7 +175,6 @@ export default function AddLiquidity({
     }
     
     setAttemptingTxn(true)
-    console.log(args)
     await estimate(...args, value ? { value } : {})
       .then(estimatedGasLimit => {
         return method(...args, {
@@ -292,10 +291,10 @@ export default function AddLiquidity({
           history.push(`/add/${newCurrencyIdB}`)
         }
       } else {
-        history.push(`/add/${currencyIdA ? currencyIdA : 'ETH'}/${newCurrencyIdB}`)
+        history.push(`/add/${currencyIdA ? currencyIdA : BASE_CURRENCY[chainId].symbol}/${newCurrencyIdB}`)
       }
     },
-    [currencyIdA, history, currencyIdB]
+    [chainId,currencyIdA, history, currencyIdB]
   )
 
   const handleDismissConfirmation = useCallback(() => {

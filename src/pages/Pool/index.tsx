@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import { ThemeContext } from 'styled-components'
-import { Pair } from '@dctdao/sdk'
+import { BASE_CURRENCY, Pair } from '@dctdao/sdk'
 import { Link } from 'react-router-dom'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { useTranslation } from 'react-i18next'
@@ -24,7 +24,7 @@ import { Dots } from '../../components/swap/styleds'
 export default function Pool() {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -61,7 +61,7 @@ export default function Pool() {
       <AppBody>
         <SwapPoolTabs active={'pool'} />
         <AutoColumn gap="lg" justify="center">
-          <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/ETH">
+          <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to={"/add/" + (chainId && BASE_CURRENCY[chainId].symbol)} >
             <Text fontWeight={500} fontSize={20}>
               {t('addLiquidity')}
             </Text>
