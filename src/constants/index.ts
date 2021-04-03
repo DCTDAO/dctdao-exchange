@@ -10,7 +10,8 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } =
   [ChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441', 
   [ChainId.MOONBEAM_TEST]: '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec' ,
   [ChainId.BINANCE_TEST]: '0x91658d67482022A0dd3F0472770f26E14e65B131',
-  [ChainId.ROPSTEN]: '0x56E9b83050f94a0E7F0C911cA23FDa9522feB2Db'
+  [ChainId.ROPSTEN]: '0x56E9b83050f94a0E7F0C911cA23FDa9522feB2Db',
+  [ChainId.OPERA_TEST]: '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec',
 }
 
 // a list of tokens by chain
@@ -46,7 +47,8 @@ const WRAPPED_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WRAPPED[ChainId.MAINNET]],
   [ChainId.MOONBEAM_TEST]: [WRAPPED[ChainId.MOONBEAM_TEST]],
   [ChainId.BINANCE_TEST]: [WRAPPED[ChainId.BINANCE_TEST]],
-  [ChainId.ROPSTEN]: [WRAPPED[ChainId.ROPSTEN]]
+  [ChainId.ROPSTEN]: [WRAPPED[ChainId.ROPSTEN]],
+  [ChainId.OPERA_TEST]: [WRAPPED[ChainId.OPERA_TEST]],
 }
 
 // used to construct intermediary pairs for trading

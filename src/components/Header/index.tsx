@@ -132,7 +132,8 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
   [ChainId.MOONBEAM_TEST]: 'Moonbeam testnet',
   [ChainId.BINANCE_TEST]: 'Binance testnet',
-  [ChainId.ROPSTEN]: 'Ropsten'
+  [ChainId.ROPSTEN]: 'Ropsten',
+  [ChainId.OPERA_TEST]: 'Fantom testnet'
 }
 
 export default function Header() {

@@ -22,16 +22,16 @@ export function getEtherscanLink(chainId: ChainId, data: string, type: 'transact
   let prefix;
   switch(chainId){
     case ChainId.MOONBEAM_TEST:
-      prefix = "https://moonbeam-explorer.netlify.app/"
+      prefix = "https://moonbeam-explorer.netlify.app"
       break
     case ChainId.BINANCE_TEST:
-      prefix = "https://testnet.bscscan.com/"
+      prefix = "https://testnet.bscscan.com"
       break
     case ChainId.ROPSTEN:
-      prefix = "https://ropsten.etherscan.io/"
+      prefix = "https://ropsten.etherscan.io"
       break
     case ChainId.MAINNET:
-      prefix = "https://etherscan.io/"
+      prefix = "https://etherscan.io"
       break
   }
   
