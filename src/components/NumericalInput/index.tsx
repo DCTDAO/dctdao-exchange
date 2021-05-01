@@ -41,15 +41,17 @@ const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." charact
 
 export const Input = React.memo(function InnerInput({
   value,
+  pattern,
   onUserInput,
   placeholder,
   ...rest
 }: {
   value: string | number
+  pattern?: string
   onUserInput: (input: string) => void
   error?: boolean
   fontSize?: string
-  align?: 'right' | 'left'
+  align?: 'right' | 'left',
 } & Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'as'>) {
   const enforcer = (nextUserInput: string) => {
     if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
@@ -72,7 +74,7 @@ export const Input = React.memo(function InnerInput({
       autoCorrect="off"
       // text-specific options
       type="text"
-      pattern="^[0-9]*[.,]?[0-9]*$"
+      pattern={pattern ?? "^[0-9]*[.,]?[0-9]*$"}
       placeholder={placeholder || '0.0'}
       minLength={1}
       maxLength={79}

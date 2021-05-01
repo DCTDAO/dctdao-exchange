@@ -3,8 +3,9 @@ import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
-import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
-import { ROUTER_ADDRESS } from '../constants'
+import { abi as IUniswapV2Router02ABI } from '@dctdao/sdk/abi/IUniswapV2Router02.json'
+import { abi as BridgeABI } from '@dctdao/sdk/abi/Bridge.json'
+import { BRIDGE_ADDRESS, ROUTER_ADDRESS } from '../constants'
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, BASE_CURRENCY } from '@dctdao/sdk'
 import { TokenAddressMap } from '../state/lists/hooks'
 
@@ -32,6 +33,12 @@ export function getEtherscanLink(chainId: ChainId, data: string, type: 'transact
       break
     case ChainId.MAINNET:
       prefix = "https://etherscan.io"
+      break
+    case ChainId.AVAX_TEST:
+      prefix = "https://testnet.avascan.info/blockchain/c"
+      break
+    case ChainId.AVAX:
+      prefix = "https://cchain.explorer.avax.network"
       break
   }
   
@@ -102,6 +109,11 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 export function getRouterContract(chainId: ChainId, library: Web3Provider, account?: string): Contract {
 
   return getContract(ROUTER_ADDRESS[chainId], IUniswapV2Router02ABI, library, account)
+}
+
+export function getBridgeContract(chainId: ChainId, library: Web3Provider, account?: string): Contract {
+
+  return getContract(BRIDGE_ADDRESS[chainId], BridgeABI, library, account)
 }
 
 export function escapeRegExp(string: string): string {

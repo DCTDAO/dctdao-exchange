@@ -220,7 +220,7 @@ export default function RemoveLiquidity({
     if (approval === ApprovalState.APPROVED) {
       // removeLiquidityETH
       if (oneCurrencyIsETH) {
-        methodNames = ['removeLiquidityETH', 'removeLiquidityETHSupportingFeeOnTransferTokens']
+        methodNames = ['removeLiquidityNATIVE', 'removeLiquidityNATIVESupportingFeeOnTransferTokens']
         args = [
           currencyBIsETH ? tokenA.address : tokenB.address,
           liquidityAmount.raw.toString(),
@@ -248,7 +248,7 @@ export default function RemoveLiquidity({
     else if (signatureData !== null) {
       // removeLiquidityETHWithPermit
       if (oneCurrencyIsETH) {
-        methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens']
+        methodNames = ['removeLiquidityNATIVEWithPermit', 'removeLiquidityNATIVEWithPermitSupportingFeeOnTransferTokens']
         args = [
           currencyBIsETH ? tokenA.address : tokenB.address,
           liquidityAmount.raw.toString(),
@@ -578,7 +578,7 @@ export default function RemoveLiquidity({
                               currencyA && currencyEquals(currencyA, WRAPPED[chainId]) ? BASE_CURRENCY[chainId].symbol : currencyIdA
                             }/${currencyB && currencyEquals(currencyB, WRAPPED[chainId]) ? BASE_CURRENCY[chainId].symbol : currencyIdB}`}
                           >
-                            Receive ETH
+                            Receive NATIVE
                           </StyledInternalLink>
                         ) : null}
                       </RowBetween>

@@ -37,6 +37,7 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
+import {useSwapAndLiquidity} from '../../hooks/useSwapAndLiquidity'
 
 export default function AddLiquidity({
   match: {
@@ -49,6 +50,8 @@ export default function AddLiquidity({
   if(!chainId) throw new Error("No ChainId")
   const currencyA = useCurrency(chainId, currencyIdA)
   const currencyB = useCurrency(chainId, currencyIdB)
+
+  const isEchangeChain = useSwapAndLiquidity()
 
   const oneCurrencyIsWRAPPED = Boolean(
     chainId &&
@@ -147,8 +150,8 @@ export default function AddLiquidity({
       value: BigNumber | null
     if (currencyA === BASE_CURRENCY[chainId] || currencyB === BASE_CURRENCY[chainId]) {
       const tokenBIsETH = currencyB === BASE_CURRENCY[chainId]
-      estimate = router.estimateGas.addLiquidityETH
-      method = router.addLiquidityETH
+      estimate = router.estimateGas.addLiquidityNATIVE
+      method = router.addLiquidityNATIVE
       args = [
         wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
@@ -310,6 +313,7 @@ export default function AddLiquidity({
     <>
       <AppBody>
         <AddRemoveTabs adding={true} />
+        {isEchangeChain ?
         <Wrapper>
           <TransactionConfirmationModal
             isOpen={showConfirm}
@@ -444,6 +448,7 @@ export default function AddLiquidity({
             )}
           </AutoColumn>
         </Wrapper>
+        : null }
       </AppBody>
 
       {pair && !noLiquidity && pairState !== PairState.INVALID ? (

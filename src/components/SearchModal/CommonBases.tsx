@@ -34,7 +34,7 @@ export default function CommonBases({
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
-  let myChainId : ChainId = ChainId.MOONBEAM_TEST
+  let myChainId : ChainId = ChainId.AVAX_TEST
   if(chainId !== undefined){
     myChainId = chainId
   }
@@ -57,7 +57,7 @@ export default function CommonBases({
         >
           <CurrencyLogo currency={BASE_CURRENCY[myChainId]} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
-            ETH
+            {BASE_CURRENCY[myChainId].symbol}
           </Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {

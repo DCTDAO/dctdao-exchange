@@ -187,11 +187,12 @@ export function useDerivedSwapInfo(): {
 
 
   // compare input balance to max input based on version
+  
   const [balanceIn, amountIn] = [
     currencyBalances[Field.INPUT],
-      slippageAdjustedAmounts
-      ? slippageAdjustedAmounts[Field.INPUT]
-      : null
+    slippageAdjustedAmounts
+    ? slippageAdjustedAmounts[Field.INPUT]
+    : null
   ]
 
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {

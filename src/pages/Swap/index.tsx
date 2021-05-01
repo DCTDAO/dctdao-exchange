@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
 import { ButtonError, ButtonLight, ButtonPrimary, ButtonConfirmed } from '../../components/Button'
-import Card, { GreyCard } from '../../components/Card'
-import { AutoColumn } from '../../components/Column'
+import Card, { GreyCard , BlueCard} from '../../components/Card'
+import { AutoColumn, ColumnCenter } from '../../components/Column'
 import ConfirmSwapModal from '../../components/swap/ConfirmSwapModal'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
@@ -43,8 +43,12 @@ import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
+import {useSwapAndLiquidity} from '../../hooks/useSwapAndLiquidity'
 
 export default function Swap() {
+
+  const isEchangeChain = useSwapAndLiquidity()
+
   const { t } = useTranslation()
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { account, chainId } = useActiveWeb3React()
@@ -142,7 +146,6 @@ export default function Swap() {
     swapErrorMessage: undefined,
     txHash: undefined
   })
-
   const formattedAmounts = {
     [independentField]: typedValue,
     [dependentField]: showWrap
@@ -271,6 +274,7 @@ export default function Swap() {
       />
       <AppBody>
         <SwapPoolTabs active={'swap'} />
+        {isEchangeChain || !account ? 
         <Wrapper id="swap-page">
           <ConfirmSwapModal
             isOpen={showConfirm}
@@ -463,8 +467,22 @@ export default function Swap() {
             
           </BottomGrouping>
         </Wrapper>
+        : <ColumnCenter>
+        <BlueCard>
+          <AutoColumn gap="10px">
+            <TYPE.link fontWeight={600} color={'primaryText1'}>
+              This network is not currecly suported for trading.
+            </TYPE.link>
+            <TYPE.link fontWeight={400} color={'primaryText1'}>
+              Try to use our bridge to trasnfer your tokens from this network to AVALANCHE network.
+            </TYPE.link>
+          </AutoColumn>
+        </BlueCard>
+      </ColumnCenter>}
       </AppBody>
+      {isEchangeChain ?
       <AdvancedSwapDetailsDropdown trade={trade} />
+      : null}
     </>
   )
 }

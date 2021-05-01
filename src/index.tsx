@@ -14,6 +14,7 @@ import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
+import BridgeUpdator from './state/bridge/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 
@@ -48,6 +49,7 @@ function Updaters() {
       <ApplicationUpdater />
       <TransactionUpdater />
       <MulticallUpdater />
+      <BridgeUpdator />
     </>
   )
 }

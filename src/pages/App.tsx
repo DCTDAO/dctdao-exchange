@@ -7,6 +7,7 @@ import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import AddLiquidity from './AddLiquidity'
+import Bridge from './Bridge'
 import {
   RedirectDuplicateTokenIds,
   RedirectOldAddLiquidityPathStructure,
@@ -75,6 +76,8 @@ export default function App() {
                 <Route exact strict path="/pool" component={Pool} />
                 <Route exact strict path="/create" component={RedirectToAddLiquidity} />
                 <Route exact path="/add" component={AddLiquidity} />
+                <Route exact path="/bridge" component={Bridge} />
+                <Route exact strict path="/bridge/:currencyIdA" component={Bridge} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
                 <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
                 <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />

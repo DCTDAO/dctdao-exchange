@@ -82,7 +82,7 @@ const TestnetWrapper = styled.div`
   pointer-events: auto;
 `
 
-const NetworkCard = styled(YellowCard)`
+export const NetworkCard = styled(YellowCard)`
   width: fit-content;
   margin-right: 10px;
   border-radius: 12px;
@@ -128,12 +128,14 @@ const MasterChefText = styled.span`
   font-family: 'Kaushan Script', sans-serif;
 `*/
 
-const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
-  [ChainId.MAINNET]: null,
+export const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
+  [ChainId.MAINNET]: 'Ethereum',
   [ChainId.MOONBEAM_TEST]: 'Moonbeam testnet',
   [ChainId.BINANCE_TEST]: 'Binance testnet',
   [ChainId.ROPSTEN]: 'Ropsten',
-  [ChainId.OPERA_TEST]: 'Fantom testnet'
+  [ChainId.OPERA_TEST]: 'Fantom testnet',
+  [ChainId.AVAX_TEST]: 'Avalanche FUJI C-Chain',
+  [ChainId.AVAX]: 'Avalanche Mainnet'
 }
 
 export default function Header() {
@@ -155,7 +157,7 @@ export default function Header() {
         <HeaderControls>
           <HeaderElement>
             <TestnetWrapper>
-              {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
+              {!isMobile &&  chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (

@@ -2,9 +2,60 @@ import { ChainId, JSBI, Percent, Token, WRAPPED } from '@dctdao/sdk'
 import { AbstractConnector } from '@sushi-web3-react/abstract-connector'
 
 import {  injected } from '../connectors'
-//fortmatic, portis, walletconnect, walletlink, lattice
-//export const ROUTER_ADDRESS = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
-//export const ROUTER_ADDRESS = '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec'
+
+export const BRIDGE_ADDRESS:{ [chainId in ChainId]: string } = 
+{
+  [ChainId.MAINNET]: '0x79c9717F61cef22e0F8286Fe5C2106F3D7C963a8', 
+  [ChainId.MOONBEAM_TEST]: '' ,
+  [ChainId.BINANCE_TEST]: '',
+  [ChainId.ROPSTEN]: '0xf9b357d604F6F082b2dEaC40169369AA7670c557',
+  [ChainId.OPERA_TEST]: '',
+  [ChainId.AVAX_TEST]: '0xc602B07E084c73740962621BB35573c5717D6538',
+  [ChainId.AVAX]: '0xe1Df271492b9c6d7EB5BF381594B884eD70C7a84'
+}
+
+export const HANDLER_GENERIC_ADDRESS: { [chainId in ChainId]: string } = 
+{ 
+  [ChainId.MAINNET]: '0xFBA564939397e71c75c9CbB29E6E23b89e4272BE', 
+  [ChainId.MOONBEAM_TEST]: '' ,
+  [ChainId.BINANCE_TEST]: '',
+  [ChainId.ROPSTEN]: '0xB0C061fbf22D8409cafe398BFB284d100887A0fc',
+  [ChainId.OPERA_TEST]: '',
+  [ChainId.AVAX_TEST]: '0x25457330796995FDC235ee2eaB7358571a3ec95f',
+  [ChainId.AVAX]: '0xdb664603Fa01bab6baf68c13BF2aE24A5eFaB9fB'
+}
+
+export const BRIDGE_CHAINIDS:{ [chainId in ChainId]: number } = 
+{
+  [ChainId.MAINNET]: 0, 
+  [ChainId.MOONBEAM_TEST]: -1 ,
+  [ChainId.BINANCE_TEST]: -1,
+  [ChainId.ROPSTEN]: 0,
+  [ChainId.OPERA_TEST]: -1,
+  [ChainId.AVAX_TEST]: 1,
+  [ChainId.AVAX]: 1
+}
+
+export const RESOURCE_ID:{[chainId in ChainId]?:Record<string, string> } = 
+{ /*!!!!!!!!!!!!!!! CHECK FOR CHECKSUMADDRESSES otherwise it not works!!!!!*/
+  [ChainId.AVAX_TEST]: {
+    '0x8B3862921F237173E1A02f1aF986324552655d43':'0xd4c9b1901408dd3ac66e649afcc3848364da672f8b7bc14bd7a3fbc674ad1f39', //DCTD
+    '0xBCCC6b23548552a81287883619CFB736d55c1765':'0x0f8a193ff464434486c0daf7db2a895884365d2bc84ba47a68fcf89c1b14b5b8' //WETH
+  },
+  [ChainId.ROPSTEN]: {
+    '0xDD38baf080c501babC74b12Bc4eb2661Eaf661a1':'0xd4c9b1901408dd3ac66e649afcc3848364da672f8b7bc14bd7a3fbc674ad1f39', //DCTD
+    '0xb603cEa165119701B58D56d10D2060fBFB3efad8':'0x0f8a193ff464434486c0daf7db2a895884365d2bc84ba47a68fcf89c1b14b5b8' //WETH
+  },
+  [ChainId.MAINNET]: {
+    '0xb566E883555aEBf5B1DB211070b530Ab00a4B18a':'0xd4c9b1901408dd3ac66e649afcc3848364da672f8b7bc14bd7a3fbc674ad1f39', //DCTD
+    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2':'0x0f8a193ff464434486c0daf7db2a895884365d2bc84ba47a68fcf89c1b14b5b8' //WETH
+  },
+  [ChainId.AVAX]: {
+    '0x8Db2dBdFB50480FE79F6576deAA4f6E68DcBfb15':'0xd4c9b1901408dd3ac66e649afcc3848364da672f8b7bc14bd7a3fbc674ad1f39', //DCTD
+    '0x9b71805C8D82E0DA861cA3C2b6c11A331Bd6A318':'0x0f8a193ff464434486c0daf7db2a895884365d2bc84ba47a68fcf89c1b14b5b8' //WETH
+  },
+}
+
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = 
 { 
   [ChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441', 
@@ -12,7 +63,14 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } =
   [ChainId.BINANCE_TEST]: '0x91658d67482022A0dd3F0472770f26E14e65B131',
   [ChainId.ROPSTEN]: '0x56E9b83050f94a0E7F0C911cA23FDa9522feB2Db',
   [ChainId.OPERA_TEST]: '0x26b4AFb60d6C903165150C6F0AA14F8016bE4aec',
+  [ChainId.AVAX_TEST]: '0x0E668D7aDa037bfC8aA58a8b3670CA341dC2DBA3',
+  [ChainId.AVAX]: '0x0b222D84Abae1541C04c212C3436Ee161Fb8FFC1'
 }
+
+
+
+
+
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -49,6 +107,8 @@ const WRAPPED_ONLY: ChainTokenList = {
   [ChainId.BINANCE_TEST]: [WRAPPED[ChainId.BINANCE_TEST]],
   [ChainId.ROPSTEN]: [WRAPPED[ChainId.ROPSTEN]],
   [ChainId.OPERA_TEST]: [WRAPPED[ChainId.OPERA_TEST]],
+  [ChainId.AVAX_TEST]: [WRAPPED[ChainId.AVAX_TEST]],
+  [ChainId.AVAX]: [WRAPPED[ChainId.AVAX]]
 }
 
 // used to construct intermediary pairs for trading

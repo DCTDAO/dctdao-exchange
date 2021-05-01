@@ -52,12 +52,15 @@ const StyledArrowLeft = styled(ArrowLeft)`
   color: ${({ theme }) => theme.text1};
 `
 
-export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
+export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' | 'bridge' }) {
   const { t } = useTranslation()
   return (
     <Tabs style={{ marginBottom: '20px' }}>
       <StyledNavLink id={`swap-nav-link`} to={'/swap'} isActive={() => active === 'swap'}>
         {t('swap')}
+      </StyledNavLink>
+      <StyledNavLink to={'/bridge'} isActive={() => active === 'bridge'}>
+        {t('Bridge')}
       </StyledNavLink>
       <StyledNavLink id={`pool-nav-link`} to={'/pool'} isActive={() => active === 'pool'}>
         {t('pool')}
@@ -93,6 +96,23 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
             adding
               ? 'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.'
               : 'Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.'
+          }
+        />
+      </RowBetween>
+    </Tabs>
+  )
+}
+
+export function AddRemoveBridge() {
+  return (
+    <Tabs>
+      <RowBetween style={{ padding: '1rem' }}>
+        <HistoryLink to="/swap">
+          <StyledArrowLeft />
+        </HistoryLink>
+        <ActiveText>DCTDAO Bridge</ActiveText>
+        <QuestionHelper
+          text={'Deposit transaction requires at least 10 confirmation on source chain and 10 confirmation on destinatino chain.'
           }
         />
       </RowBetween>

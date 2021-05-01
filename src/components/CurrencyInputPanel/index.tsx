@@ -127,8 +127,10 @@ interface CurrencyInputPanelProps {
   pair?: Pair | null
   hideInput?: boolean
   otherCurrency?: Currency | null
-  id: string
+  id: string,
+  pattern?: string,
   showCommonBases?: boolean
+  error?: boolean
 }
 
 export default function CurrencyInputPanel({
@@ -145,9 +147,13 @@ export default function CurrencyInputPanel({
   hideInput = false,
   otherCurrency,
   id,
+  pattern,
+  error,
   showCommonBases
+  
 }: CurrencyInputPanelProps) {
   const { t } = useTranslation()
+  
 
   const [modalOpen, setModalOpen] = useState(false)
   const { account } = useActiveWeb3React()
@@ -194,6 +200,8 @@ export default function CurrencyInputPanel({
                 onUserInput={val => {
                   onUserInput(val)
                 }}
+                pattern={pattern}
+                error={error}
               />
               {account && currency && showMaxButton && label !== 'To' && (
                 <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>

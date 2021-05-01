@@ -10,18 +10,20 @@ import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE } from '../../theme'
 import { Text } from 'rebass'
-import { LightCard } from '../../components/Card'
+import { LightCard, BlueCard } from '../../components/Card'
 import { RowBetween } from '../../components/Row'
 import { ButtonPrimary } from '../../components/Button'
-import { AutoColumn } from '../../components/Column'
+import { AutoColumn, ColumnCenter } from '../../components/Column'
 
 import { useActiveWeb3React } from '../../hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import AppBody from '../AppBody'
 import { Dots } from '../../components/swap/styleds'
+import {useSwapAndLiquidity} from '../../hooks/useSwapAndLiquidity'
 
 export default function Pool() {
+  const isExchangeSwap = useSwapAndLiquidity()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
@@ -60,6 +62,7 @@ export default function Pool() {
     <>
       <AppBody>
         <SwapPoolTabs active={'pool'} />
+        {isExchangeSwap ?
         <AutoColumn gap="lg" justify="center">
           <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to={"/add/" + (chainId && BASE_CURRENCY[chainId].symbol)} >
             <Text fontWeight={500} fontSize={20}>
@@ -111,6 +114,18 @@ export default function Pool() {
             </div>
           </AutoColumn>
         </AutoColumn>
+        :<ColumnCenter>
+        <BlueCard>
+        <AutoColumn gap="10px">
+          <TYPE.link fontWeight={600} color={'primaryText1'}>
+            This network is not currecly suported by DCTDAO.
+          </TYPE.link>
+          <TYPE.link fontWeight={400} color={'primaryText1'}>
+            Try to use our bridge to trasnfer your tokens from this network to AVALANCHE network.
+          </TYPE.link>
+        </AutoColumn>
+      </BlueCard>
+      </ColumnCenter> }
       </AppBody>
     </>
   )
