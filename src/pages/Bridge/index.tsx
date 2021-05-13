@@ -220,7 +220,7 @@ export default function Bridge({
                 <RowBetween>
                   <Text fontWeight={500}>To Native</Text>
                   <QuestionHelper
-                    text={'This percetnage of your tokens will be automaticly unwrapped or traded to the native token of the destination chain. Be careful, in case of trading your in danger of front-running.'
+                    text={'This percetnage of your tokens will be automaticaly unwrapped or traded to the native token on the destination chain. Be careful, you can get front-run.'
                     }
                   />
                   
@@ -307,7 +307,7 @@ export default function Bridge({
                       <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                         Bridge Fee 
                       </TYPE.black>
-                      <QuestionHelper text="Fee paid to the relayers for executing transactions on the other chain." />
+                      <QuestionHelper text="Fee paid to the relayers for executing transactions on the destination chain." />
                     </RowFixed>
                     <RowFixed>
                       <TYPE.black color={theme.text1} fontSize={14}>

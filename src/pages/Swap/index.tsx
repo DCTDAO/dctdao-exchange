@@ -471,10 +471,10 @@ export default function Swap() {
         <BlueCard>
           <AutoColumn gap="10px">
             <TYPE.link fontWeight={600} color={'primaryText1'}>
-              This network is not currecly suported for trading.
+              This network is not currently supported for trading.
             </TYPE.link>
             <TYPE.link fontWeight={400} color={'primaryText1'}>
-              Try to use our bridge to trasnfer your tokens from this network to AVALANCHE network.
+              Try to use our bridge to transfer your tokens from this network to AVALANCHE network.
             </TYPE.link>
           </AutoColumn>
         </BlueCard>

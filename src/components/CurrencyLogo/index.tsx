@@ -8,9 +8,8 @@ import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
-const getTokenLogoURL = (symbol: string) =>
-  //`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
-  `https://raw.githubusercontent.com/DCTDAO/token-list/master/assets/${symbol}.png`
+const getTokenLogoURL = (symbol: string) =>{
+  return `https://raw.githubusercontent.com/DCTDAO/token-list/master/assets/${symbol}.png` }
 
 /* TODO my fix */
 const getTokenLogoDctDaoURL = () =>

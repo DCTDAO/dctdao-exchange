@@ -118,10 +118,10 @@ export default function Pool() {
         <BlueCard>
         <AutoColumn gap="10px">
           <TYPE.link fontWeight={600} color={'primaryText1'}>
-            This network is not currecly suported by DCTDAO.
+            This network is not currently supported by DCTDAO.
           </TYPE.link>
           <TYPE.link fontWeight={400} color={'primaryText1'}>
-            Try to use our bridge to trasnfer your tokens from this network to AVALANCHE network.
+            Try to use our bridge to transfer your tokens from this network to AVALANCHE network.
           </TYPE.link>
         </AutoColumn>
       </BlueCard>
