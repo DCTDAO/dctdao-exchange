@@ -49,12 +49,14 @@ export const RESOURCE_ID:{[chainId in ChainId]?:Record<string, string> } =
   [ChainId.MAINNET]: {
     '0xb566E883555aEBf5B1DB211070b530Ab00a4B18a':'0xd4c9b1901408dd3ac66e649afcc3848364da672f8b7bc14bd7a3fbc674ad1f39', //DCTD
     '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2':'0x0f8a193ff464434486c0daf7db2a895884365d2bc84ba47a68fcf89c1b14b5b8', //WETH
-    '0xdAC17F958D2ee523a2206206994597C13D831ec7':'0x8b1a1d9c2b109e527c9134b25b1a1833b16b6594f92daa9f6d9b7a6024bce9d0' //USDT
+    '0xdAC17F958D2ee523a2206206994597C13D831ec7':'0x8b1a1d9c2b109e527c9134b25b1a1833b16b6594f92daa9f6d9b7a6024bce9d0', //USDT
+    '0x4Fb721eF3Bf99e0f2c193847afA296b9257d3C30':'0x96706879d29c248edfb2a2563a8a9d571c49634c0f82013e6f5a7cde739d35d4' //TOK
   },
   [ChainId.AVAX]: {
     '0x8Db2dBdFB50480FE79F6576deAA4f6E68DcBfb15':'0xd4c9b1901408dd3ac66e649afcc3848364da672f8b7bc14bd7a3fbc674ad1f39', //DCTD
     '0xbF61c387c9A9535140eCC572eeB22C7aa3FcF7A9':'0x0f8a193ff464434486c0daf7db2a895884365d2bc84ba47a68fcf89c1b14b5b8', //DWETH
-    '0x2856144eb4F5e9D48e074ED53D60f161Bc7677AA':'0x8b1a1d9c2b109e527c9134b25b1a1833b16b6594f92daa9f6d9b7a6024bce9d0' //DUSDT
+    '0x017801B52F3e40178C75C4B4f19f1a0c8F8A0b78':'0x8b1a1d9c2b109e527c9134b25b1a1833b16b6594f92daa9f6d9b7a6024bce9d0', //DUSDT
+    '0xae9d2385Ff2E2951Dd4fA061e74c4d3deDD24347':'0x96706879d29c248edfb2a2563a8a9d571c49634c0f82013e6f5a7cde739d35d4' //TOK
   },
 }
 
@@ -78,9 +80,9 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } =
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
 }
-
-export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
+/*
+export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDT = new Token(ChainId.MAINNET, '0xdAC17F958D2ee523a2206206994597C13D831ec7', 6, 'USDT', 'Tether USD')
 export const COMP = new Token(ChainId.MAINNET, '0xc00e94Cb662C3520282E6f5717214004A7f26888', 18, 'COMP', 'Compound')
 export const MKR = new Token(ChainId.MAINNET, '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2', 18, 'MKR', 'Maker')
@@ -101,6 +103,14 @@ export const CRV = new Token(
   'Curve Dao Token'
 )
 export const ALPHA = new Token(ChainId.MAINNET, '0xa1faa113cbE53436Df28FF0aEe54275c13B40975', 18, 'ALPHA', 'AlphaToken')
+*/
+//Adding tokens for 
+export const DWETH = new Token(ChainId.AVAX,'0xbF61c387c9A9535140eCC572eeB22C7aa3FcF7A9',18,'DWETH','DWrapped Ether')
+export const ETH = new Token(ChainId.AVAX,'0xf20d962a6c8f70c731bd838a3a388D7d48fA6e15',18,'ETH','Ether')
+export const USDT = new Token(ChainId.AVAX,'0xde3A24028580884448a5397872046a019649b084',6,'USDT','Tether USD')
+export const DUSDT = new Token(ChainId.AVAX,'0x017801B52F3e40178C75C4B4f19f1a0c8F8A0b78',6,'DUSDT','DTether USD')
+export const DCTD = new Token(ChainId.AVAX,'0x8Db2dBdFB50480FE79F6576deAA4f6E68DcBfb15',18,'DCTD','DCTDAO')
+
 
 
 const WRAPPED_ONLY: ChainTokenList = {
@@ -118,18 +128,13 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WRAPPED_ONLY,
   [ChainId.MAINNET]: [
     ...WRAPPED_ONLY[ChainId.MAINNET],
-    DAI,
-    USDC,
+  ],
+  [ChainId.AVAX]: [
+    DUSDT,
     USDT,
-    SUSHI,
-    YAM,
-    WBTC,
-    RUNE,
-    CREAM,
-    BAC,
-    FXS,
-    CRV,
-    ALPHA
+    DWETH,
+    ETH,
+    DCTD,
   ]
 }
 
@@ -139,20 +144,20 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
   [ChainId.MAINNET]: {
-    [AMPL.address]: [DAI, WRAPPED[ChainId.MAINNET]]
+    //[AMPL.address]: [DAI, WRAPPED[ChainId.MAINNET]]
   }
 }
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WRAPPED_ONLY,
-  [ChainId.MAINNET]: [...WRAPPED_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
+  [ChainId.AVAX]: [...WRAPPED_ONLY[ChainId.AVAX], DCTD, DWETH, DUSDT]
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WRAPPED_ONLY,
-  [ChainId.MAINNET]: [...WRAPPED_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
+  [ChainId.AVAX]: [...WRAPPED_ONLY[ChainId.AVAX], DCTD, DWETH, DUSDT]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -161,8 +166,8 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
       new Token(ChainId.MAINNET, '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', 8, 'cDAI', 'Compound Dai'),
       new Token(ChainId.MAINNET, '0x39AA39c021dfbaE8faC545936693aC917d5E7563', 8, 'cUSDC', 'Compound USD Coin')
     ],
-    [USDC, USDT],
-    [DAI, USDT]
+    //[USDC, USDT],
+    //[DAI, USDT]
   ]
 }
 

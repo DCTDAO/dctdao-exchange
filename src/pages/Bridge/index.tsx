@@ -220,7 +220,7 @@ export default function Bridge({
                 <RowBetween>
                   <Text fontWeight={500}>To Native</Text>
                   <QuestionHelper
-                    text={'This percetnage of your tokens will be automaticaly unwrapped or traded to the native token on the destination chain. Be careful, you can get front-run.'
+                    text={'This percentage of your tokens will be automaticaly unwrapped or traded to the native token on the destination chain. Be careful, you can get front-run.'
                     }
                   />
                   

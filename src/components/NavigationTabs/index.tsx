@@ -112,7 +112,7 @@ export function AddRemoveBridge() {
         </HistoryLink>
         <ActiveText>DCTDAO Bridge</ActiveText>
         <QuestionHelper
-          text={'Deposit transaction requires at least 10 confirmation on source chain and 10 confirmation on destinatino chain.'
+          text={'Deposit transaction requires at least 10 confirmations on source chain and 10 confirmations on destination chain.'
           }
         />
       </RowBetween>

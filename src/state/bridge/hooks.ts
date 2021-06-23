@@ -72,13 +72,14 @@ export function useDerivedBridgeInfo(
     if (!account) {
         inputError = t('connectWallet')
     }
-
-    if (!parsedAmount) {
+    
+    if (!parsedAmount || !currency) {
       inputError = inputError ?? t('enterAnAmount')
     }else {
+      let dec = (currency?.decimals - 3);
       let a = parsedAmount.raw.toString()
-      a = a.substr(a.length - 15)
-    if(a !== "000000000000000"){
+      a = a.substr(a.length - dec)
+    if(a !== '0'.repeat(dec)){
         max3DecimalsError=true
         inputError = inputError ?? 'Too many decimals' 
       }
@@ -89,6 +90,7 @@ export function useDerivedBridgeInfo(
     } else {
       tokenAddress = wrappedCurrency(currency, chainId)?.address ?? ''
     }
+    
 
     const recipientLookup = useENS(recipient ?? undefined)
     const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
