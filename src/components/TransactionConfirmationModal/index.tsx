@@ -1,5 +1,5 @@
 import { ChainId } from '@dctdao/sdk'
-import React, { useContext } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import Modal from '../Modal'
 import { ExternalLink } from '../../theme'
@@ -10,6 +10,7 @@ import { AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { ButtonPrimary } from '../Button'
 import { AutoColumn, ColumnCenter } from '../Column'
 import Circle from '../../assets/images/blue-loader.svg'
+import { useBlockNumber } from '../../state/application/hooks'
 
 import { getEtherscanLink } from '../../utils'
 import { useActiveWeb3React } from '../../hooks'
@@ -68,14 +69,27 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
 function TransactionSubmittedContent({
   onDismiss,
   chainId,
-  hash
+  hash,
+  numConfirmations
 }: {
   onDismiss: () => void
   hash: string | undefined
   chainId: ChainId
+  numConfirmations: number | undefined
 }) {
   const theme = useContext(ThemeContext)
-
+  const [confirmations, setConfirmations] = useState<number>(0)
+  const { library } = useActiveWeb3React()
+  const latestBlockNumber = useBlockNumber()
+  
+  useEffect(() => {
+    async function getConfirmations(){
+      if (!hash || !library  || !chainId || !hash) return 
+      const tx = await library.getTransaction(hash)
+      setConfirmations(tx.confirmations)
+    }
+    getConfirmations();
+  },[hash,library,latestBlockNumber]);
   return (
     <Wrapper>
       <Section>
@@ -83,27 +97,64 @@ function TransactionSubmittedContent({
           <div />
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
+        
+        {numConfirmations && (confirmations < numConfirmations) ? 
+            <>
+             <ConfirmedIcon>
+              <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
+            </ConfirmedIcon>
+            <AutoColumn gap="12px" justify={'center'}>
+            <Text fontWeight={500} fontSize={20}>
+              Waiting For Confirmations {confirmations}/{numConfirmations}
+            </Text>
+            <AutoColumn gap="12px" justify={'center'}>
+              <Text fontWeight={600} fontSize={14} color="" textAlign="center">
+              Transaction Submitted
+              </Text>
+                {chainId && hash && (
+                  <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
+                    <Text fontWeight={500} fontSize={14} color={theme.primary1}>
+                      View on explorer
+                    </Text>
+                  </ExternalLink>
+                )}
+            </AutoColumn>
+            <Text fontSize={12} color="#565A69" textAlign="center">
+              After {numConfirmations} confirmations your tokens will be bridged.
+            </Text>
+          </AutoColumn> 
+          </>
+        :  
+        <>
         <ConfirmedIcon>
           <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
-          <Text fontWeight={500} fontSize={20}>
-            Transaction Submitted
-          </Text>
-
-          {chainId && hash && (
-            <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
-              <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                View on explorer
-              </Text>
-            </ExternalLink>
-          )}
-          <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
-            <Text fontWeight={500} fontSize={20}>
-              Close
+        <Text fontWeight={500} fontSize={20}>
+          {numConfirmations ? 'Bridging your tokens' : 'Transaction Submitted'}
+        </Text>
+        <AutoColumn gap="12px" justify={'center'}>
+          {numConfirmations && 
+            <Text fontSize={12} color="#565A69" textAlign="center">
+              New transactions will be submitted on the destination chain. This can take a few minutes.
             </Text>
-          </ButtonPrimary>
-        </AutoColumn>
+          }
+
+           </AutoColumn>
+        {chainId && hash && (
+          <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
+            <Text fontWeight={500} fontSize={14} color={theme.primary1}>
+              View on explorer
+            </Text>
+          </ExternalLink>
+        )}
+        <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
+          <Text fontWeight={500} fontSize={20}>
+            Close
+          </Text>
+        </ButtonPrimary>
+      </AutoColumn>
+      </>}
       </Section>
     </Wrapper>
   )
@@ -167,7 +218,8 @@ interface ConfirmationModalProps {
   hash: string | undefined
   content: () => React.ReactNode
   attemptingTxn: boolean
-  pendingText: string
+  pendingText: string,
+  numConfirmations: number | undefined
 }
 
 export default function TransactionConfirmationModal({
@@ -176,7 +228,8 @@ export default function TransactionConfirmationModal({
   attemptingTxn,
   hash,
   pendingText,
-  content
+  content,
+  numConfirmations
 }: ConfirmationModalProps) {
   const { chainId } = useActiveWeb3React()
 
@@ -188,7 +241,7 @@ export default function TransactionConfirmationModal({
       {attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
-        <TransactionSubmittedContent chainId={chainId} hash={hash} onDismiss={onDismiss} />
+        <TransactionSubmittedContent chainId={chainId} hash={hash} onDismiss={onDismiss} numConfirmations={numConfirmations}/>
       ) : (
         content()
       )}

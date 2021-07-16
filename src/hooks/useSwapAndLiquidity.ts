@@ -7,7 +7,7 @@ import {ChainId} from '@dctdao/sdk'
 
 
 export function useSwapAndLiquidity() : boolean{
-    const { account, chainId, library } = useActiveWeb3React()
+    const { chainId, library } = useActiveWeb3React()
 
     return useMemo(()=>{
         switch(chainId){

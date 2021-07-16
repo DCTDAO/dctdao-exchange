@@ -1,14 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { resetBridgeState, typeInput, typeInputPer, setRecipient, setCurrencyId,
-  setFee } from './actions'
-import { BigNumber } from '@ethersproject/bignumber'
+  setFee, setPaused } from './actions'
 
 export interface BridgeState {
     readonly typedValue: string,
     readonly typedPer: string,
     readonly recipient: string | null,
     readonly currencyId: string | undefined,
-    readonly feeBridge: string | undefined
+    readonly feeBridge: string | undefined,
+    readonly pausedBridge: boolean
 }
 
 
@@ -17,7 +17,8 @@ const initialState: BridgeState = {
     typedPer: '',
     recipient: null,
     currencyId: undefined,
-    feeBridge: undefined
+    feeBridge: undefined,
+    pausedBridge: false
 }
 
 export default createReducer<BridgeState>(initialState, builder =>
@@ -53,6 +54,12 @@ export default createReducer<BridgeState>(initialState, builder =>
           feeBridge
           }
         })
+      .addCase(setPaused, (state, {payload: { pausedBridge } }) => {
+        return { 
+          ...state,
+          pausedBridge
+        }
+      })
       
 )
   
