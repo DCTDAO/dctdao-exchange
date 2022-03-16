@@ -17,7 +17,7 @@ export const BRIDGE_ADDRESS:{ [chainId in ChainId]: string } =
 export const HANDLER_GENERIC_ADDRESS: { [chainId in ChainId]: string } = 
 { 
   [ChainId.MAINNET]: '0xceA5B7cf6D4920B8d71b9575fe8F523130f5Cd54', 
-  [ChainId.MOONBEAM_TEST]: '' ,
+  [ChainId.MOONBEAM_TEST]: '',
   [ChainId.BINANCE_TEST]: '',
   [ChainId.ROPSTEN]: '',
   [ChainId.OPERA_TEST]: '',
